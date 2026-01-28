@@ -1,18 +1,40 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 
-/// <summary>
-/// Implements an aggressive Goomba-like behaviour.
-/// Increases movement speed when a target is detected in line of sight
-/// and flips direction on walls or edges.
-/// </summary>
 public class AngryGoombaBehaviour : MonoBehaviour, IGoombaLikeBehaviour
 {
+    #region Serialized Fields
+
+    [Header("Movement Settings")]
     /// <summary>
     /// Multiplier applied to base movement speed
     /// when a target is detected in line of sight.
     /// </summary>
     [SerializeField] private float _targetInSightSpeedMultiplier = 1.5f;
+
+    [Header("Chase Settings")]
+    /// <summary>
+    /// Duration the Goomba actively chases a detected target.
+    /// </summary>
+    [SerializeField] private float _chaseDuration;
+
+    /// <summary>
+    /// Duration the Goomba remains exhausted after chasing.
+    /// </summary>
+    [SerializeField] private float _exhaustedDuration;
+
+    [Header("State Settings")]
+    /// <summary>
+    /// Current state of the Goomba (Patrolling, Chasing, Exhausted).
+    /// </summary>
+    [SerializeField] private ChasingEnemyState _currentState = ChasingEnemyState.Patrolling;
+
+    #endregion
+
+    #region Components / References
 
     /// <summary>
     /// Handles line-of-sight checks for detecting targets.
@@ -32,23 +54,22 @@ public class AngryGoombaBehaviour : MonoBehaviour, IGoombaLikeBehaviour
     /// <summary>
     /// Cached transform reference for position access.
     /// </summary>
-    private Transform _cachedTransform;
+    private Transform _transform;
+
+    #endregion
+
+    #region State Variables
 
     /// <summary>
     /// True if a target is currently detected in line of sight.
     /// </summary>
     private bool _isTargetInLineOfSight = false;
 
-    /// <summary>
-    /// Indicates whether the Goomba is currently in a chasing state.
-    /// </summary>
-    private bool _isChasing;
+    #endregion
 
-    /// <summary>
-    /// Returns whether the Goomba is currently chasing a target.
-    /// </summary>
-    public bool IsChasing => _isChasing;
+    #region Events
 
+    [Header("Events")]
     /// <summary>
     /// Invoked when the Goomba starts chasing a detected target.
     /// </summary>
@@ -59,48 +80,75 @@ public class AngryGoombaBehaviour : MonoBehaviour, IGoombaLikeBehaviour
     /// </summary>
     public UnityEvent OnChaseEnd;
 
-    /// <summary>
-    /// Caches required component references.
-    /// </summary>
+    #endregion
+
+    #region Unity Methods
+
     private void Awake()
     {
         _lineOfSight = GetComponent<LineOfSight>();
         _movementController = GetComponent<MovementController>();
         _sensor = GetComponent<Sensor>();
-        _cachedTransform = transform;
+        _transform = transform;
     }
+
+    private void OnDrawGizmos()
+    {
+        if (_transform == null || _movementController == null || _lineOfSight == null)
+            return;
+
+        Gizmos.color = _isTargetInLineOfSight ? Color.red : Color.green;
+
+        Gizmos.DrawLine(
+            _transform.position,
+            _transform.position + new Vector3(
+                _movementController.MoveDirection.x,
+                _movementController.MoveDirection.y,
+                0f
+            ) * _lineOfSight.LineOfSightLength
+        );
+    }
+
+    #endregion
+
+    #region Core Behaviour Methods
 
     /// <summary>
     /// Handles physics-based movement.
-    /// Adjusts speed based on line-of-sight target detection.
+    /// Adjusts speed based on line-of-sight target detection and current state.
     /// </summary>
     public void FixedTick()
     {
+        if (_currentState == ChasingEnemyState.Exhausted)
+        {
+            _movementController.StopMovement();
+            Debug.Log("[ANGRY GOOMBA] FixedTick: Currently exhausted, stopping movement -");
+            return;
+        }
+
         _isTargetInLineOfSight = _lineOfSight.CheckTargets(
             _movementController.MoveDirection,
-            _cachedTransform.position
+            _transform.position
         );
 
         float targetSpeed = _movementController.BaseSpeed;
 
-        if (_isTargetInLineOfSight)
+        if (_currentState == ChasingEnemyState.Chasing)
         {
-            if (!_isChasing)
-                _isChasing = true;
-            OnChaseStart?.Invoke();
-
             targetSpeed *= _targetInSightSpeedMultiplier;
-        }
-        else
-        {
-            if (_isChasing)
-            {
-                _isChasing = false;
-                OnChaseEnd?.Invoke();
-            }
+            Debug.Log($"[ANGRY GOOMBA] FixedTick: Target in sight, applying speed multiplier {_targetInSightSpeedMultiplier} -");
         }
 
-        _movementController.Move(targetSpeed);
+        if (_isTargetInLineOfSight && _currentState == ChasingEnemyState.Patrolling)
+        {
+            Debug.Log("[ANGRY GOOMBA] FixedTick: Target detected, starting chase cycle -");
+            StartCoroutine(PerformChaseCycle());
+        }
+
+        if (_currentState != ChasingEnemyState.Exhausted)
+        {
+            _movementController.Move(targetSpeed);
+        }
     }
 
     /// <summary>
@@ -115,24 +163,29 @@ public class AngryGoombaBehaviour : MonoBehaviour, IGoombaLikeBehaviour
         }
     }
 
+    #endregion
+
+    #region Coroutines
+
     /// <summary>
-    /// Draws gizmos to visualize line of sight and detection state.
-    /// Red indicates a detected target, green indicates no target.
+    /// Coroutine to handle chasing and exhaustion cycle.
     /// </summary>
-    private void OnDrawGizmos()
+    private IEnumerator PerformChaseCycle()
     {
-        if (_cachedTransform == null || _movementController == null || _lineOfSight == null)
-            return;
+        Debug.Log("[ANGRY GOOMBA] PerformChaseCycle: Starting coroutine -");
 
-        Gizmos.color = _isTargetInLineOfSight ? Color.red : Color.green;
+        _currentState = ChasingEnemyState.Chasing;
+        OnChaseStart?.Invoke();
+        yield return new WaitForSeconds(_chaseDuration);
 
-        Gizmos.DrawLine(
-            _cachedTransform.position,
-            _cachedTransform.position + new Vector3(
-                _movementController.MoveDirection.x,
-                _movementController.MoveDirection.y,
-                0f
-            ) * _lineOfSight.LineOfSightLength
-        );
+        _currentState = ChasingEnemyState.Exhausted;
+        yield return new WaitForSeconds(_exhaustedDuration);
+
+        _currentState = ChasingEnemyState.Patrolling;
+        OnChaseEnd?.Invoke();
+
+        Debug.Log("[ANGRY GOOMBA] PerformChaseCycle: Coroutine ended -");
     }
+
+    #endregion
 }

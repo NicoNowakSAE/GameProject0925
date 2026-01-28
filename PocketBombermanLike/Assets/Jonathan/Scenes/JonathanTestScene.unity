@@ -2129,6 +2129,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7671904432159604296, guid: 43dc1ff287d963b448c7802e73fbae65, type: 3}
+      propertyPath: _chaseDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671904432159604296, guid: 43dc1ff287d963b448c7802e73fbae65, type: 3}
+      propertyPath: _exhaustedDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671904432159604296, guid: 43dc1ff287d963b448c7802e73fbae65, type: 3}
       propertyPath: OnChaseStart.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}

@@ -71,4 +71,12 @@ public class MovementController : MonoBehaviour
 
         MoveDirection *= -1;
     }
+
+    /// <summary>
+    /// Removes the entire linear velocity of the targeted Rigidbody.
+    /// </summary>
+    public void StopMovement()
+    {
+        _rb.linearVelocity = Vector3.zero;
+    }
 }

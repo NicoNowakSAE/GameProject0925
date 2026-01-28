@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class BaseGoombaLikeBehaviour : MonoBehaviour, IGoombaLikeBehaviour
 {
+    #region Components / References
+
+    [Header("Components / References")]
     /// <summary>
     /// Provides environmental checks such as ground and wall detection.
     /// </summary>
@@ -17,6 +20,10 @@ public class BaseGoombaLikeBehaviour : MonoBehaviour, IGoombaLikeBehaviour
     /// </summary>
     private MovementController _movementController;
 
+    #endregion
+
+    #region Unity Methods
+
     /// <summary>
     /// Caches required component references.
     /// </summary>
@@ -25,6 +32,10 @@ public class BaseGoombaLikeBehaviour : MonoBehaviour, IGoombaLikeBehaviour
         _movementController = GetComponent<MovementController>();
         _sensor = GetComponent<Sensor>();
     }
+
+    #endregion
+
+    #region Core Behaviour Methods
 
     /// <summary>
     /// Handles physics-based movement.
@@ -46,4 +57,6 @@ public class BaseGoombaLikeBehaviour : MonoBehaviour, IGoombaLikeBehaviour
             _movementController.Flip();
         }
     }
+
+    #endregion
 }
