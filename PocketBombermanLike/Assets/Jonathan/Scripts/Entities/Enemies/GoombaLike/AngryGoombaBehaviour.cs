@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 
-public class AngryGoombaBehaviour : MonoBehaviour, IGoombaLikeBehaviour
+public class AngryGoombaBehaviour : EntityBaseBehaviour
 {
     #region Serialized Fields
 
@@ -117,7 +117,7 @@ public class AngryGoombaBehaviour : MonoBehaviour, IGoombaLikeBehaviour
     /// Handles physics-based movement.
     /// Adjusts speed based on line-of-sight target detection and current state.
     /// </summary>
-    public void FixedTick()
+    public override void FixedTick()
     {
         if (_currentState == ChasingEnemyState.Exhausted)
         {
@@ -155,7 +155,7 @@ public class AngryGoombaBehaviour : MonoBehaviour, IGoombaLikeBehaviour
     /// Handles non-physics logic.
     /// Flips movement direction when hitting a wall or reaching an edge.
     /// </summary>
-    public void Tick()
+    public override void Tick()
     {
         if (!_sensor.IsGrounded() || _sensor.IsWallAhead())
         {

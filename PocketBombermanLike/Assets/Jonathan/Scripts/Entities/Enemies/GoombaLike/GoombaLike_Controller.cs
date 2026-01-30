@@ -11,14 +11,14 @@ public class GoombaLike_Controller : MonoBehaviour
     /// <summary>
     /// Active Goomba-like behaviour attached to this GameObject.
     /// </summary>
-    private IGoombaLikeBehaviour _behaviour;
+    private EntityBaseBehaviour _behaviour;
 
     /// <summary>
     /// Caches the Goomba-like behaviour component.
     /// </summary>
     private void Awake()
     {
-        _behaviour = GetComponent<IGoombaLikeBehaviour>();
+        _behaviour = GetComponent<EntityBaseBehaviour>();
     }
 
     /// <summary>

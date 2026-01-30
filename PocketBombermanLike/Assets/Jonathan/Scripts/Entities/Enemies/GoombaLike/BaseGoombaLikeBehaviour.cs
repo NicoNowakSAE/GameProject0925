@@ -5,7 +5,7 @@ using UnityEngine;
 /// Handles constant movement and basic direction flipping
 /// when encountering walls or edges.
 /// </summary>
-public class BaseGoombaLikeBehaviour : MonoBehaviour, IGoombaLikeBehaviour
+public class BaseGoombaLikeBehaviour : EntityBaseBehaviour
 {
     #region Components / References
 
@@ -41,7 +41,7 @@ public class BaseGoombaLikeBehaviour : MonoBehaviour, IGoombaLikeBehaviour
     /// Handles physics-based movement.
     /// Moves constantly at base speed.
     /// </summary>
-    public void FixedTick()
+    public override void FixedTick()
     {
         _movementController.Move(_movementController.BaseSpeed);
     }
@@ -50,7 +50,7 @@ public class BaseGoombaLikeBehaviour : MonoBehaviour, IGoombaLikeBehaviour
     /// Handles non-physics logic.
     /// Flips direction when hitting a wall or reaching an edge.
     /// </summary>
-    public void Tick()
+    public override void Tick()
     {
         if (!_sensor.IsGrounded() || _sensor.IsWallAhead())
         {
