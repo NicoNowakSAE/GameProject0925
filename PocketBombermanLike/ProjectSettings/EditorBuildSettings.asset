@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Jonathan/Scenes/JonathanTestScene.unity
+    guid: e6be3d57731f22b44b961b2b13a61c04
+  - enabled: 1
+    path: Assets/Jonathan/Scenes/JonathanTestScene02.unity
+    guid: ccd12010d49068540b055e2657a0cd42
+  - enabled: 1
+    path: Assets/Jonathan/Scenes/JonathanTestScene03.unity
+    guid: 07273d079ecd8eb479536b86371a450b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
