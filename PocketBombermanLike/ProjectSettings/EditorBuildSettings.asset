@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Jonathan/Scenes/JonathanTestScene.unity
+    path: Assets/Jonathan/Scenes/HealthTest.unity
     guid: e6be3d57731f22b44b961b2b13a61c04
   - enabled: 1
     path: Assets/Jonathan/Scenes/JonathanTestScene02.unity
