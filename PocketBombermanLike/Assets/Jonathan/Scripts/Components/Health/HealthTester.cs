@@ -6,18 +6,17 @@ using UnityEngine.InputSystem;
 public class HealthTester : MonoBehaviour
 {
     [Serializable]
-    public enum reduceIncreaseValue
+    public enum ReduceIncreaseValue
     {
         Reduce,
-        Increase,
-        Kill
+        Increase
     }
 
     [Serializable]
     public struct HealthTestPair
     {
         public KeyCode ActionKey;
-        public reduceIncreaseValue Action;
+        public ReduceIncreaseValue Action;
         public float Value;
     }
 
