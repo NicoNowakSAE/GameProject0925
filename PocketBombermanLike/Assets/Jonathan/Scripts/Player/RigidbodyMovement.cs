@@ -10,6 +10,8 @@ public class RigidbodyMovement : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
 
+    public Vector2 Velocity { get => _rigidbody.linearVelocity; }
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
