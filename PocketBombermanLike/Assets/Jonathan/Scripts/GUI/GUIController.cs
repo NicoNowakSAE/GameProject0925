@@ -106,6 +106,11 @@ public class GUIController : MonoBehaviour
     public void OpenQuitMenu()
     {
         Debug.Log("[GUI CONTROLLER] Open quit menu invoked -");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
         Application.Quit();
     }
 }

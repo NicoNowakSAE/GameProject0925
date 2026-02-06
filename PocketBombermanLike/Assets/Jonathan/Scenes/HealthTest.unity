@@ -1793,8 +1793,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keyMap:
   - ActionKey: 107
-    Action: 2
+    Action: 0
     Value: 10
+  - ActionKey: 108
+    Action: 1
+    Value: 9
   _testHealthObject: {fileID: 330943266}
 --- !u!4 &1980735405
 Transform:

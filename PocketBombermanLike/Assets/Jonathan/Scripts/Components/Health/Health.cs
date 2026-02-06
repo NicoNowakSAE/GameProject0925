@@ -48,11 +48,10 @@ public class Health : MonoBehaviour
     public void Reduce(float damageDealt)
     {
         float targetHp = _currentHealth - damageDealt;
-        if (targetHp < 0 || !_isAlive)
-        {
-            Debug.LogWarning("[HEALTH] You tried reducing health of an entity which is either already dead or has negative health points -");
-            return;
-        }
+
+        if (targetHp < 0)
+            targetHp = 0;
+
         _currentHealth = targetHp;
         Debug.Log($"[HEALTH] Reduced health of {gameObject.name} by {damageDealt} => Health now: {_currentHealth} -");
     }
@@ -66,10 +65,10 @@ public class Health : MonoBehaviour
     public void Gain(float healthRegained)
     {
         float targetHp = _currentHealth + healthRegained;
-        if (!_canHealMoreThanBase && targetHp > _baseHp)
+        if (!_canHealMoreThanBase)
         {
-            Debug.Log("[HEALTH] An entity must not heal above their specified base health (You can change this in the inspector!) -");
-            return;
+            if (targetHp > _baseHp)
+                targetHp = _baseHp;
         }
         _currentHealth = targetHp;
         Debug.Log($"[HEALTH] Increased health of {gameObject.name} by {healthRegained} => Health now: {_currentHealth} -");

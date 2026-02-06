@@ -29,7 +29,10 @@ public class HealthTester : MonoBehaviour
         {
             if (Input.GetKeyDown(valuePair.ActionKey))
             {
-                _testHealthObject.Reduce(valuePair.Value);
+                if(valuePair.Action == ReduceIncreaseValue.Reduce)
+                    _testHealthObject.Reduce(valuePair.Value);
+                else if(valuePair.Action == ReduceIncreaseValue.Increase)
+                    _testHealthObject.Gain(valuePair.Value);
             }
         }
     }
