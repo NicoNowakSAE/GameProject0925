@@ -34,10 +34,13 @@ public class Health : MonoBehaviour
     /// </summary>
     private bool _isAlive = true;
 
+    public bool IsAlive => _isAlive;
     /// <summary>
     /// Fires as soon as the health of the entity reaches 0.
     /// </summary>
     public UnityEvent OnEntityDeath;
+
+    [SerializeField] private bool _turnInactiveOnDeath = false;
 
     /// <summary>
     /// Removed a specified amount from an entity's health.
@@ -100,6 +103,9 @@ public class Health : MonoBehaviour
         _isAlive = false;
         Debug.Log($"[HEALTH] {gameObject.name} died -");
 
+        if (_turnInactiveOnDeath)
+            gameObject.SetActive(false);
+            
         OnEntityDeath.Invoke();
     }
 

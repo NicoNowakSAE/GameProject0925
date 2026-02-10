@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 8400491750074758688}
   - component: {fileID: 8710408541160813179}
   - component: {fileID: 8140983830260077216}
+  - component: {fileID: 2578609727483172016}
   - component: {fileID: 6412927536937718288}
   - component: {fileID: 400218158316868232}
   m_Layer: 3
@@ -137,7 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 10
-  _jumpForce: 15
+  _jumpForce: 20
 --- !u!114 &8400491750074758688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,9 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4efd4d9fb9530e14c972e48b62c80bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _totalJumpsAvailable: 2
+  _totalExtraJumpsAvailable: 0
   _canJump: 1
   _canMove: 1
+  _coyoteTime: 0.13
 --- !u!114 &8140983830260077216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +184,25 @@ MonoBehaviour:
   _groundLayers:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &2578609727483172016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297325544570057579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779a8605c8d94b849bab1bd59975a1aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentHealth: 0
+  _baseHp: 200
+  _canHealMoreThanBase: 0
+  OnEntityDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  _turnInactiveOnDeath: 0
 --- !u!50 &6412927536937718288
 Rigidbody2D:
   serializedVersion: 5
@@ -197,7 +218,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 7.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
