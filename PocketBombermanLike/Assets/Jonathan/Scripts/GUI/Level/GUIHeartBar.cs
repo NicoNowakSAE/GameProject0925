@@ -42,7 +42,7 @@ public class HeartBar : MonoBehaviour
 
             newObjRectTransform.sizeDelta = new Vector2(newObjWidth, newObjHeight);
 
-            float totalWidth = _amount * newObjWidth + (_amount - 1) * _padding;
+            float totalWidth = _amount * newObjWidth + (_amount - 1) * Mathf.Max(1, _padding);
             float startX = -totalWidth / 2 + newObjWidth / 2;
 
             newObjRectTransform.anchoredPosition = new Vector2(
