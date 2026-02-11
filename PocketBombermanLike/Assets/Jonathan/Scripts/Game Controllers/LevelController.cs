@@ -33,7 +33,7 @@ public class LevelController : MonoBehaviour
     public int HeartsCount => _heartsCount;
     private string[] _activePowerups;
     public string[] ActivePowerups => _activePowerups;
-    private int _currentLevel = 999;
+    [SerializeField] private int _currentLevel = 999;
     public int CurrentLevel => _currentLevel;
     public float PlayerHealth => _playerHealth.CurrentHealth;
 
