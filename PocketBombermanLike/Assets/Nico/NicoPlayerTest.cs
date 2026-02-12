@@ -59,9 +59,12 @@ public class NicoPlayerTest : MonoBehaviour
     [SerializeField]
     private SpriteRenderer gliderSprite;
 
+    [SerializeField]
+    private GameObject _bombPrefab;
 
     void Start()
     {
+        
     }
 
     void Update()
@@ -71,64 +74,70 @@ public class NicoPlayerTest : MonoBehaviour
 
         GetUserInput();
 
-        //Collider2D collider = Physics2D.OverlapBox(groundCheckTransform.position, groundCheckBoxDimensions, 0, groundCheckLayerMask);
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Instantiate(_bombPrefab, this.transform.position, Quaternion.identity);
+            
+        }
 
-        // if (collider != null)
-        // {
-        //     groundedTimer = coyoteTime;
-        //     isGrounded = true;
-        //     curGlidingTimer = glidingTime;
-        // }
-        // else
-        // {
-        //     isGrounded = false;
-        // }
-        // 
-        // if (jumpPressedDown)
-        // {
-        //     jumpTimer = jumpInputTime;
-        // }
+            //Collider2D collider = Physics2D.OverlapBox(groundCheckTransform.position, groundCheckBoxDimensions, 0, groundCheckLayerMask);
 
-        // if (jumpTimer > 0)
-        // {
-        //     if (groundedTimer > 0)
-        //     {
-        //         Jump();
-        //         jumpTimer = 0;
-        //         groundedTimer = 0;
-        //     }
-        // }
+            // if (collider != null)
+            // {
+            //     groundedTimer = coyoteTime;
+            //     isGrounded = true;
+            //     curGlidingTimer = glidingTime;
+            // }
+            // else
+            // {
+            //     isGrounded = false;
+            // }
+            // 
+            // if (jumpPressedDown)
+            // {
+            //     jumpTimer = jumpInputTime;
+            // }
 
-        // isGliding = GlidingCheck();
+            // if (jumpTimer > 0)
+            // {
+            //     if (groundedTimer > 0)
+            //     {
+            //         Jump();
+            //         jumpTimer = 0;
+            //         groundedTimer = 0;
+            //     }
+            // }
+
+            // isGliding = GlidingCheck();
 
 
-        // if (isGliding)
-        // {
-        //     rb.gravityScale = glidingGravityScale;
-        //     rb.linearVelocity = Vector2.zero;
-        //     gliderSprite.gameObject.SetActive(true);
-        //     curGlidingTimer -= Time.deltaTime;
-        // }
-        // else
-        // {
-        //     rb.gravityScale = defaultGravityScale;
-        //     gliderSprite.gameObject.SetActive(false);
-        // }
+            // if (isGliding)
+            // {
+            //     rb.gravityScale = glidingGravityScale;
+            //     rb.linearVelocity = Vector2.zero;
+            //     gliderSprite.gameObject.SetActive(true);
+            //     curGlidingTimer -= Time.deltaTime;
+            // }
+            // else
+            // {
+            //     rb.gravityScale = defaultGravityScale;
+            //     gliderSprite.gameObject.SetActive(false);
+            // }
 
-        // if (isFacingRight)
-        // {
-        //     if (xInput < 0)
-        //     {
-        //         FlipPlayer();
-        //     }
-        // }
-        // else // isFacingRight = false
-        // {
-        //     if (xInput > 0)
-        //     {
-        //         FlipPlayer();
-        //     }
-        // }
+            // if (isFacingRight)
+            // {
+            //     if (xInput < 0)
+            //     {
+            //         FlipPlayer();
+            //     }
+            // }
+            // else // isFacingRight = false
+            // {
+            //     if (xInput > 0)
+            //     {
+            //         FlipPlayer();
+            //     }
+            // }
     }
 
     void FlipPlayer()
