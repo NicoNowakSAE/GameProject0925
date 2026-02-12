@@ -57,6 +57,11 @@ public class BombController : MonoBehaviour
 
             SpawnBomb();
         }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            AudioManager.Instance.PlaySound("TestSound01");
+            AudioManager.Instance.PlaySound("TestSound01");
+        }
     }
 
 }

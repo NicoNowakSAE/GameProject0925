@@ -61,6 +61,7 @@ public class Bomb : MonoBehaviour
             h.Hit(1);
         }
 
+        AudioManager.Instance.PlaySound("TestSound01");
         _despawnCallback.Invoke(this);
     }
 
