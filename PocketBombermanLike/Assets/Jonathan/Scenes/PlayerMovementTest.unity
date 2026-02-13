@@ -878,18 +878,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8710408541160813179, guid: 950d5e1db0b208b40b47d1d784af60a4, type: 3}
-      propertyPath: _coyoteTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710408541160813179, guid: 950d5e1db0b208b40b47d1d784af60a4, type: 3}
-      propertyPath: _totalJumpsAvailable
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8710408541160813179, guid: 950d5e1db0b208b40b47d1d784af60a4, type: 3}
-      propertyPath: _totalExtraJumpsAvailable
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
