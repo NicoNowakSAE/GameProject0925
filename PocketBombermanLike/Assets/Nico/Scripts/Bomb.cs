@@ -18,9 +18,11 @@ public class Bomb : MonoBehaviour
 
     [SerializeField] private LayerMask _bombHitLayerMask;
 
+    [SerializeField] private int _bombRadius = 3;
+
     void Start()
     {
-        
+
     }
 
     public void Init(Action<Bomb> callback)
@@ -44,8 +46,7 @@ public class Bomb : MonoBehaviour
     {
         Instantiate(_explosionPrefab, this.transform.position, Quaternion.identity);
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(3, 1), 0, _bombHitLayerMask);
-        Collider2D[] hits02 = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(3, 1), 90, _bombHitLayerMask);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(_bombRadius, 1), 0, _bombHitLayerMask);
 
         for (int i = 0; i < hits.Length; i++)
         {
@@ -54,9 +55,11 @@ public class Bomb : MonoBehaviour
             h.Hit(1);
         }
 
-        for (int i = 0; i < hits02.Length; i++)
+        hits = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(_bombRadius, 1), 90, _bombHitLayerMask);
+
+        for (int i = 0; i < hits.Length; i++)
         {
-            IBombHit h = hits02[i].gameObject.GetComponent<IBombHit>();
+            IBombHit h = hits[i].gameObject.GetComponent<IBombHit>();
             if (h == null) continue;
             h.Hit(1);
         }

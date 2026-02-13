@@ -9,16 +9,21 @@ public class BombController : MonoBehaviour
     [SerializeField] private int _maxBombCount;
     private int _curBombCount = 0;
 
+    [SerializeField] private int _bombPoolSize = 5;
+
     private List<Bomb> _bombPool = new List<Bomb>();
     private void Awake()
     {
         GameObject bombcontainer = new GameObject("BombContainer");
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < _bombPoolSize; i++)
         {
             Bomb b = Instantiate(_bombPrefab, this.transform.position, Quaternion.identity).GetComponent<Bomb>();
             if (b == null)
-                return;
+            {
+                Destroy(b);
+                continue;
+            }
 
             b.transform.parent = bombcontainer.transform;
             b.Init(DespawnBomb);
@@ -56,11 +61,6 @@ public class BombController : MonoBehaviour
                 return;
 
             SpawnBomb();
-        }
-        if (Input.GetKey(KeyCode.Space))
-        {
-            AudioManager.Instance.PlaySound("TestSound01");
-            AudioManager.Instance.PlaySound("TestSound01");
         }
     }
 

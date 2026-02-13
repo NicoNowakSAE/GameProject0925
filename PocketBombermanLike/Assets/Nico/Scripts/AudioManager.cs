@@ -29,12 +29,23 @@ public class AudioManager : MonoBehaviour
         {
             if (_sounds[i].name == sound)
             {
-                PlaySound(_sounds[i]);
+                Play(_sounds[i]);
             }
         }
     }
 
     public void PlaySound(Sound sfx)
+    {
+        for(int i = 0; i < _sounds.Length; i++)
+        {
+            if (_sounds[i] == sfx)
+            {
+                Play(_sounds[i]);
+            }
+        }
+    }
+
+    private void Play(Sound sfx)
     {
         for (int i = 0; i < _channels.Length; i++)
         {
@@ -47,6 +58,4 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
-
-
 }

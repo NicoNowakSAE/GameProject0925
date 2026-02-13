@@ -64,7 +64,7 @@ public class NicoPlayerTest : MonoBehaviour
 
     void Start()
     {
-        
+        AudioManager.Instance.PlaySound("PlayerJump");
     }
 
     void Update()
