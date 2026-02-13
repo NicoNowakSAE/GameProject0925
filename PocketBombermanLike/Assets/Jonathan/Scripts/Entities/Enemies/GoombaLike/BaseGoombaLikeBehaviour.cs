@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 /// <summary>
 /// Provides the base behaviour for Goomba-like enemies.
 /// Handles constant movement and basic direction flipping
 /// when encountering walls or edges.
 /// </summary>
-public class BaseGoombaLikeBehaviour : EntityBaseBehaviour
+public class BaseGoombaLikeBehaviour : EntityBaseBehaviour, IBombHit
 {
     #region Components / References
 
@@ -20,6 +21,8 @@ public class BaseGoombaLikeBehaviour : EntityBaseBehaviour
     /// </summary>
     private MovementController _movementController;
 
+    private Health _health;
+
     #endregion
 
     #region Unity Methods
@@ -31,6 +34,8 @@ public class BaseGoombaLikeBehaviour : EntityBaseBehaviour
     {
         _movementController = GetComponent<MovementController>();
         _sensor = GetComponent<Sensor>();
+        _health = GetComponent<Health>();
+        _health.OnEntityDeath.AddListener(OnDeath);
     }
 
     #endregion
@@ -56,6 +61,16 @@ public class BaseGoombaLikeBehaviour : EntityBaseBehaviour
         {
             _movementController.Flip();
         }
+    }
+
+    public void Hit(int dmg)
+    {
+        _health.Die();
+    }
+
+    public override void OnDeath()
+    {
+        LevelController.Instance.RemoveEntity();
     }
 
     #endregion

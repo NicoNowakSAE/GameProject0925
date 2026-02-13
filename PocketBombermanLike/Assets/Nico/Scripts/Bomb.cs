@@ -18,7 +18,7 @@ public class Bomb : MonoBehaviour
 
     [SerializeField] private LayerMask _bombHitLayerMask;
 
-    [SerializeField] private int _bombRadius = 3;
+    private int _bombRadius;
 
     void Start()
     {
@@ -30,7 +30,7 @@ public class Bomb : MonoBehaviour
         _despawnCallback = callback;
     }
 
-    public void Spawn(Vector3 pos)
+    public void Spawn(Vector3 pos, int radius)
     {
         float x = Mathf.Floor(pos.x) + 0.5f;
         float y = Mathf.Floor(pos.y) + 0.5f;
@@ -38,6 +38,8 @@ public class Bomb : MonoBehaviour
 
         _triggerCollider.enabled = true;
         _collider.enabled = false;
+
+        _bombRadius = radius;
 
         Invoke("TriggerExplosion", _explodeTimer);
     }
@@ -81,8 +83,8 @@ public class Bomb : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(this.transform.position, new Vector3(3, 1, .5f));
-        Gizmos.DrawWireCube(this.transform.position, new Vector3(1, 3, .5f));
+        Gizmos.DrawWireCube(this.transform.position, new Vector3(_bombRadius, 1, .5f));
+        Gizmos.DrawWireCube(this.transform.position, new Vector3(1, _bombRadius, .5f));
     }
 }
 

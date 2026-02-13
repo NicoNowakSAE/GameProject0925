@@ -76,16 +76,14 @@ public class PlayerController : MonoBehaviour
             _rbMovement.Jump();
         }
 
+        if (_canMove)
+            _rbMovement.Move(_playerInput.Move.ReadValue<Vector2>());
     }
 
     private void Update()
     {
         if (_playerInput.Jump.WasPressedThisFrame() && !_isJumpQueued)
             _isJumpQueued = true;
-
-
-        if (_canMove)
-            _rbMovement.Move(_playerInput.Move.ReadValue<Vector2>());
 
 #if UNITY_EDITOR
         if (_lastReceivedJumpsRemainingValue != _totalExtraJumpsAvailable)

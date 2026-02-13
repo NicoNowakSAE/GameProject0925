@@ -37,19 +37,29 @@ public class LevelController : MonoBehaviour
     public int CurrentLevel => _currentLevel;
     public float PlayerHealth => _playerHealth.CurrentHealth;
 
+    public static LevelController Instance;
+
     private GameObject[] GetAllObjectsInScene() => FindObjectsByType<GameObject>(FindObjectsSortMode.InstanceID);
 
     private void Awake()
     {
         _playerLayerMask = LayerMask.NameToLayer("Player");
         _enemyLayerMask = LayerMask.NameToLayer("Enemy");
+        Instance = this;
     }
     private int GetEnemyCount()
     {
-        GameObject[] enemiesInScene = GetAllObjectsInScene().Where(e => e.layer == _enemyLayerMask).Where(e => e.transform.parent == null).ToArray();
+        GameObject[] enemiesInScene = GetAllObjectsInScene().Where(e => e.layer == _enemyLayerMask).ToArray();
         return enemiesInScene.Count();
     }
 
+    private void SpawnPlayer()
+    {
+        _player.transform.position = _startAnchor.transform.position;
+        _playerHealth.Gain(_playerHealth.BaseHealth);
+        _playerHealth.SetAlive(true);
+    }
+    
     private void FetchLevelAnchors()
     {
         foreach (GameObject obj in GetAllObjectsInScene())
@@ -112,6 +122,7 @@ public class LevelController : MonoBehaviour
         FetchLevelAnchors();
         FetchPlayer();
 
+        _playerHealth.OnEntityDeath.AddListener(SpawnPlayer);
         _enemiesRemaining = GetEnemyCount();
 
         Debug.Log($"[LEVEL CONTROLLER] Found {_enemiesRemaining} enemies on Start() -");
@@ -122,6 +133,7 @@ public class LevelController : MonoBehaviour
 
     public void RemoveEntity()
     {
+        // todo: refactor this
         _enemiesRemaining--;
 
         if (_enemiesRemaining < 0)
@@ -137,7 +149,7 @@ public class LevelController : MonoBehaviour
 
         if (_player != null)
         {
-            if (Vector3.Distance(_player.transform.position, _endAnchor.transform.position) < _levelEndDistanceTreshold && !_isPlayerEndTouchSatisfied)
+            if (Vector3.Distance(_player.transform.position, _endAnchor.transform.position) < _levelEndDistanceTreshold && !_isPlayerEndTouchSatisfied && _enemiesRemaining <= 0)
             {
                 Debug.Log("[LEVEL CONTROLLER] Level end condition has been satisfied => Invoking OnPlayerTouchEnd Event now -");
                 _isPlayerEndTouchSatisfied = true;

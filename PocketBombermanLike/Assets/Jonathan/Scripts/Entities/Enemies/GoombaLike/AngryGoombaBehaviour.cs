@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 
-public class AngryGoombaBehaviour : EntityBaseBehaviour
+public class AngryGoombaBehaviour : EntityBaseBehaviour, IBombHit
 {
     #region Serialized Fields
 
@@ -56,6 +56,8 @@ public class AngryGoombaBehaviour : EntityBaseBehaviour
     /// </summary>
     private Transform _transform;
 
+    private Health _health;
+
     #endregion
 
     #region State Variables
@@ -90,6 +92,8 @@ public class AngryGoombaBehaviour : EntityBaseBehaviour
         _movementController = GetComponent<MovementController>();
         _sensor = GetComponent<Sensor>();
         _transform = transform;
+        _health = GetComponent<Health>();
+        _health.OnEntityDeath.AddListener(OnDeath);
     }
 
     private void OnDrawGizmos()
@@ -185,6 +189,16 @@ public class AngryGoombaBehaviour : EntityBaseBehaviour
         OnChaseEnd?.Invoke();
 
         Debug.Log("[ANGRY GOOMBA] PerformChaseCycle: Coroutine ended -");
+    }
+
+    public void Hit(int dmg)
+    {
+        _health.Die();
+    }
+
+    public override void OnDeath()
+    {
+        LevelController.Instance.RemoveEntity();
     }
 
     #endregion

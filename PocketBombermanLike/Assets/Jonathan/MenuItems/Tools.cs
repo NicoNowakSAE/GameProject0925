@@ -13,7 +13,7 @@ public class Tools : MonoBehaviour
         int enemyLayerMask = LayerMask.NameToLayer("Enemy");
 
         GameObject[] objectsInScene = FindObjectsByType<GameObject>(FindObjectsSortMode.InstanceID);
-        GameObject[] enemiesInScene = objectsInScene.Where(e => e.layer == enemyLayerMask).Where(e => e.transform.parent == null).ToArray();
+        GameObject[] enemiesInScene = objectsInScene.Where(e => e.layer == enemyLayerMask).ToArray();
 
         Debug.Log($"[TOOLS] There are {enemiesInScene.Count()} enemies in the current scene.");
     }

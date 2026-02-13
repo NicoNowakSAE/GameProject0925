@@ -100,11 +100,12 @@ GameObject:
   - component: {fileID: 8710408541160813179}
   - component: {fileID: 8140983830260077216}
   - component: {fileID: 2578609727483172016}
+  - component: {fileID: 5589979665530422933}
   - component: {fileID: 6412927536937718288}
   - component: {fileID: 400218158316868232}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -203,6 +204,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _turnInactiveOnDeath: 0
+--- !u!114 &5589979665530422933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297325544570057579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6b986efb2be80c4aa1b93fb38a37a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bombPrefab: {fileID: 7544168271287643898, guid: 6c2b1caf55349d541b59d1800458707d, type: 3}
+  _maxBombCount: 1
+  _bombPoolSize: 5
+  _bombRadius: 5
 --- !u!50 &6412927536937718288
 Rigidbody2D:
   serializedVersion: 5
@@ -219,7 +236,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 7.5
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ae39c190463a812459f066f4b6e374b3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -240,7 +257,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 3c251c6bc7643ce488aed66331a88c0f, type: 2}
+  m_Material: {fileID: 6200000, guid: ae39c190463a812459f066f4b6e374b3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

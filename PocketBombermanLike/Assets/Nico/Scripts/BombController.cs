@@ -10,6 +10,7 @@ public class BombController : MonoBehaviour
     private int _curBombCount = 0;
 
     [SerializeField] private int _bombPoolSize = 5;
+    [SerializeField] private int _bombRadius = 3;
 
     private List<Bomb> _bombPool = new List<Bomb>();
     private void Awake()
@@ -39,7 +40,7 @@ public class BombController : MonoBehaviour
             if (_bombPool[i].gameObject.activeSelf == false)
             {
                 _bombPool[i].gameObject.SetActive(true);
-                _bombPool[i].Spawn(this.transform.position);
+                _bombPool[i].Spawn(this.transform.position, _bombRadius);
                 _curBombCount++;
                 return;
             }

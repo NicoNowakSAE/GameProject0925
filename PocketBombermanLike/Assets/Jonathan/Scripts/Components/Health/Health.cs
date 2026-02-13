@@ -59,6 +59,10 @@ public class Health : MonoBehaviour
         Debug.Log($"[HEALTH] Reduced health of {gameObject.name} by {damageDealt} => Health now: {_currentHealth} -");
     }
 
+    public void SetAlive(bool value)
+    {
+        _isAlive = value;
+    }
     /// <summary>
     /// Adds a specified amount onto an entity's health.
     /// </summary>
