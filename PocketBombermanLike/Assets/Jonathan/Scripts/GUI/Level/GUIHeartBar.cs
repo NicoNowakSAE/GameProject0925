@@ -37,8 +37,8 @@ public class HeartBar : MonoBehaviour
 
             newObjImage.sprite = _spriteAsset;
 
-            float newObjWidth = _spriteAsset.rect.width * 5;
-            float newObjHeight = _spriteAsset.rect.height * 5;
+            float newObjWidth = 32;
+            float newObjHeight = 32;
 
             newObjRectTransform.sizeDelta = new Vector2(newObjWidth, newObjHeight);
 

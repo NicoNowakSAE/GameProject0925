@@ -36,7 +36,10 @@ public class LevelController : MonoBehaviour
     [SerializeField] private int _currentLevel = 999;
     public int CurrentLevel => _currentLevel;
     public float PlayerHealth => _playerHealth.CurrentHealth;
-
+    
+    private GameState _currentGameState = GameState.Running;
+    private PlayerInput _playerInput;
+    private GUIManager _guiManager;
     public static LevelController Instance;
 
     private GameObject[] GetAllObjectsInScene() => FindObjectsByType<GameObject>(FindObjectsSortMode.InstanceID);
@@ -45,6 +48,9 @@ public class LevelController : MonoBehaviour
     {
         _playerLayerMask = LayerMask.NameToLayer("Player");
         _enemyLayerMask = LayerMask.NameToLayer("Enemy");
+        _playerInput = FindFirstObjectByType<PlayerInput>();
+        _guiManager = FindFirstObjectByType<GUIManager>();
+
         Instance = this;
     }
     private int GetEnemyCount()
@@ -139,6 +145,41 @@ public class LevelController : MonoBehaviour
         if (_enemiesRemaining < 0)
             _enemiesRemaining = 0;
     }
+
+    public void PauseGame()
+    {
+        if (_currentGameState == GameState.Paused)
+            return;
+        
+        _currentGameState = GameState.Paused;
+        Time.timeScale = 0.0f;
+    }
+
+    public void ResumeGame()
+    {
+        if (_currentGameState == GameState.Running)
+            return;
+
+        _currentGameState = GameState.Running;
+        Time.timeScale = 1.0f;
+    }
+
+    public void SetGameState(GameState state)
+    {
+        switch (state)
+        {
+            case GameState.Paused:
+            _guiManager.SetPauseGUIActive(true);
+                Time.timeScale = 0;
+                break;
+            case GameState.Running:
+                Time.timeScale = 1;
+                _guiManager.SetPauseGUIActive(false);
+                break;
+        }
+    }
+
+
     private void Update()
     {
         if (_enemiesRemaining <= 0 && !_endAnchor.activeInHierarchy)
@@ -154,6 +195,21 @@ public class LevelController : MonoBehaviour
                 Debug.Log("[LEVEL CONTROLLER] Level end condition has been satisfied => Invoking OnPlayerTouchEnd Event now -");
                 _isPlayerEndTouchSatisfied = true;
                 OnPlayerTouchEnd.Invoke();
+            }
+        }
+
+        if (_playerInput.TogglePause.WasPressedThisFrame())
+        {
+            switch (_currentGameState)
+            {
+                case GameState.Paused:
+                    _currentGameState = GameState.Running;
+                    Time.timeScale = 1.0f;
+                    break;
+                case GameState.Running:
+                    _currentGameState = GameState.Paused;
+                    Time.timeScale = 0.0f;
+                    break;
             }
         }
     }

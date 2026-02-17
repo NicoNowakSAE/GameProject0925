@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentHealth: 0
-  _baseHp: 200
+  _baseHp: 100
   _canHealMoreThanBase: 0
   OnEntityDeath:
     m_PersistentCalls:
