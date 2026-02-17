@@ -62,15 +62,9 @@ public class PointNavigation : MonoBehaviour
         Debug.Log($"[POINT NAVIGATION] Set nav speed: {_navMoveSpeed} -");
     }
 
-    private void MoveToNextPoint()
+    private void MoveTowards(Vector3 target)
     {
-        if (_points.Count <= 0)
-            return;
-
-        Vector3 targetPoint = _points.ElementAt(0);
-        Vector3 direction = transform.TransformDirection(targetPoint - _transform.position);
-
-        Debug.Log($"[POINT NAVIGTION] Moving to point: {targetPoint} -");
+        Vector3 direction = (target - _transform.position).normalized;
         _rb.linearVelocity = direction * _navMoveSpeed;
     }
 
@@ -79,13 +73,22 @@ public class PointNavigation : MonoBehaviour
         _isMovementLoopAlreadyActive = true;
         while (_isActive)
         {
-            while (Vector3.Distance(_transform.position, _points.ElementAt(0)) > 0.25f)
+            Debug.Log($"[POINT NAVIGATION] Array Size: {_points.Count} -");
+
+            if (_points.Count == 0)
             {
-                MoveToNextPoint();
+                yield return null;
+                continue;
+            }
+
+            while (_points.Count > 0 && Vector3.Distance(_transform.position, _points[0]) > 0.25f)
+            {
+                MoveTowards(_points[0]);
+                yield return new WaitForFixedUpdate();
             }
             
             RemoveOldestPoint();
-            yield return new WaitForEndOfFrame();
+            
         }
         _isMovementLoopAlreadyActive = false;
     }
@@ -94,15 +97,10 @@ public class PointNavigation : MonoBehaviour
     {
         if (_isActive && !_isMovementLoopAlreadyActive)
             StartCoroutine(MovementLoop());
-
-        Debug.Log($"Array Size: {_points.Count}\nIs Active: {_isActive} -");
     }
 
     private void OnDrawGizmos()
     {
-        UnityEditor.Handles.Label(transform.position + Vector3.up * 3,
-            $"Points: {_points.Count}");
-
         if (_points == null || _points.Count == 0)
             return;
 
@@ -110,13 +108,12 @@ public class PointNavigation : MonoBehaviour
 
         for (int i = 0; i < tempList.Count(); i++)
         {
-            // Punkt zeichnen
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(tempList[i], 0.2f);
+            Gizmos.DrawSphere(tempList[i], 0.1f);
 
             if (i < tempList.Count() - 1)
             {
-                Gizmos.color = Color.cyan;
+                Gizmos.color = Color.magenta;
                 Gizmos.DrawLine(tempList[i], _points[i + 1]);
             }
         }

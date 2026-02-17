@@ -14,11 +14,10 @@ public class AggroDudeBehaviour : MonoBehaviour
     private PointNavigation _pointNav;
     private bool _hasPointNavAlreadyStarted = false;
 
-    [SerializeField] private ChasingEnemyState _currentState = ChasingEnemyState.Patrolling;
+    private ChasingEnemyState _currentState = ChasingEnemyState.Patrolling;
     [SerializeField] private float _patrollingAreaSize;
     [SerializeField] private GameObject _player;
     [SerializeField] private List<StateMovementspeedPair> _movementStateSpeeds = new List<StateMovementspeedPair>();
-    [SerializeField] private float _lineOfSightLength;
     [SerializeField] private float _playerDistanceThreshold = 0.25f;
     private void Awake()
     {

@@ -27,8 +27,6 @@ public class HeartBar : MonoBehaviour
             GameObject newObj = new GameObject("HeartImage");
 
             newObj.AddComponent<UnityEngine.UI.Image>();
-            newObj.AddComponent<UnityEngine.CanvasRenderer>();
-            newObj.AddComponent<UnityEngine.RectTransform>();
 
             newObj.transform.SetParent(this.gameObject.transform);
 

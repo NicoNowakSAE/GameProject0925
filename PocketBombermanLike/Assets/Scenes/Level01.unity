@@ -587,10 +587,10 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 0
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
-  m_Dithering: 0
+  m_Dithering: 1
   m_ClearDepth: 1
   m_AllowXRRendering: 1
   m_AllowHDROutput: 1
@@ -601,7 +601,7 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    m_Quality: 3
+    m_Quality: 4
     m_FrameInfluence: 0.1
     m_JitterScale: 1
     m_MipBias: 0
@@ -3119,7 +3119,7 @@ MonoBehaviour:
   - State: 0
     Speed: 3
   - State: 1
-    Speed: 2.5
+    Speed: 5
   _lineOfSightLength: 5
   _playerDistanceThreshold: 1.5
 --- !u!4 &1646197986
@@ -3242,8 +3242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1687c878849988445abfc7432c824a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minPointSpacing: 2
-  _maxPointArraySize: 50
+  _minPointSpacing: 0.5
+  _maxPointArraySize: 3
 --- !u!1001 &1697634330
 PrefabInstance:
   m_ObjectHideFlags: 0
