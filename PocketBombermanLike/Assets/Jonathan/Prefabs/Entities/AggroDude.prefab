@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a3226e154210e488cb93539b10c307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lineOfSightLength: 2
+  _lineOfSightLength: 4
   _lineOfSightTargetLayers:
     serializedVersion: 2
     m_Bits: 8
