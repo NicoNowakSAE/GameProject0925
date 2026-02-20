@@ -62,6 +62,8 @@ public class NicoPlayerTest : MonoBehaviour
     [SerializeField]
     private GameObject _bombPrefab;
 
+    
+
     void Start()
     {
         AudioManager.Instance.PlaySound("PlayerJump");
@@ -204,6 +206,8 @@ public class NicoPlayerTest : MonoBehaviour
         // Gizmos.color = Color.red;
         // Gizmos.DrawWireCube(groundCheckTransform.position, groundCheckBoxDimensions);
     }
+
+    
 }
 
 
