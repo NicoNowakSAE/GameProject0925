@@ -5,5 +5,6 @@ public enum MenuType
 {
     Main,
     Settings,
-    Pause
+    Pause,
+    None
 }

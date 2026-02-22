@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInput _playerInput;
     private RigidbodyMovement _rbMovement;
     private GroundCheck _groundCheck;
-
+    private GUIManager _guiManager;
     private float _groundedTimer;
 
     private int _extraJumpsRemaining;
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _totalExtraJumpsAvailable = 1;
     [SerializeField] private bool _canJump = true;
     [SerializeField] private bool _canMove = true;
-    [SerializeField] [Range(0, 0.5f)] private float _coyoteTime = 0.13f; 
+    [SerializeField][Range(0, 0.5f)] private float _coyoteTime = 0.13f;
 
 
     private void Awake()
@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _rbMovement = GetComponent<RigidbodyMovement>();
         _groundCheck = GetComponent<GroundCheck>();
+        _guiManager = FindFirstObjectByType<GUIManager>();
 
         _extraJumpsRemaining = _totalExtraJumpsAvailable;
         _lastReceivedJumpsRemainingValue = _extraJumpsRemaining;
@@ -51,8 +52,8 @@ public class PlayerController : MonoBehaviour
             _groundedTimer = _coyoteTime;
         }
 
-        if(_rbMovement.Velocity.y > 0.1f)
-           _groundedTimer = 0;
+        if (_rbMovement.Velocity.y > 0.1f)
+            _groundedTimer = 0;
 
         if (_isJumpQueued)
         {
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
             if (_groundedTimer <= 0) // if _groundedTimer > 0 then isGrounded
             {
-                if(_extraJumpsRemaining > 0)
+                if (_extraJumpsRemaining > 0)
                 {
                     _extraJumpsRemaining -= 1;
                 }
@@ -84,6 +85,15 @@ public class PlayerController : MonoBehaviour
     {
         if (_playerInput.Jump.WasPressedThisFrame() && !_isJumpQueued)
             _isJumpQueued = true;
+
+        if (_playerInput.TogglePause.WasPressedThisFrame())
+        {
+            bool isPauseMenuActive = _guiManager.IsPauseMenuActive;
+
+            _guiManager.SetPauseGUIActive(!isPauseMenuActive);
+            
+
+        }
 
 #if UNITY_EDITOR
         if (_lastReceivedJumpsRemainingValue != _totalExtraJumpsAvailable)

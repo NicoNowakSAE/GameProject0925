@@ -1148,7 +1148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteAsset: {fileID: 1149271498, guid: fb4c73ee37fd2cd44844c0a1ad356571, type: 3}
   _amount: 3
-  _padding: 0
+  _padding: 64
   testhp: 3
 --- !u!1 &7953279693927077430
 GameObject:
