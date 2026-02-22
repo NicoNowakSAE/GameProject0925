@@ -84,8 +84,6 @@ public class PointNavigation : MonoBehaviour
         _isMovementLoopAlreadyActive = true;
         while (_isActive)
         {
-            Debug.Log($"[POINT NAVIGATION] Array Size: {_points.Count} -");
-
             if (_points.Count == 0)
             {
                 yield return null;
