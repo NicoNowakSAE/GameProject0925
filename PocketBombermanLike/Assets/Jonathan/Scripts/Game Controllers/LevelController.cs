@@ -40,6 +40,7 @@ public class LevelController : MonoBehaviour
     private GameState _currentGameState = GameState.Running;
     private PlayerInput _playerInput;
     private GUIManager _guiManager;
+    private GUIController _guiController;
     public static LevelController Instance;
 
     private GameObject[] GetAllObjectsInScene() => FindObjectsByType<GameObject>(FindObjectsSortMode.InstanceID);
@@ -50,6 +51,8 @@ public class LevelController : MonoBehaviour
         _enemyLayerMask = LayerMask.NameToLayer("Enemy");
         _playerInput = FindFirstObjectByType<PlayerInput>();
         _guiManager = FindFirstObjectByType<GUIManager>();
+        // CHANGE 05
+        _guiController = FindFirstObjectByType<GUIController>();
 
         Instance = this;
     }
@@ -128,7 +131,8 @@ public class LevelController : MonoBehaviour
         FetchLevelAnchors();
         FetchPlayer();
 
-        _playerHealth.OnEntityDeath.AddListener(SpawnPlayer);
+        _playerHealth.OnEntityDeath.AddListener(SpawnPlayer); // ?
+        OnPlayerTouchEnd.AddListener(LevelDone); // CHANGE 06
         _enemiesRemaining = GetEnemyCount();
 
         Debug.Log($"[LEVEL CONTROLLER] Found {_enemiesRemaining} enemies on Start() -");
@@ -164,6 +168,17 @@ public class LevelController : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
+    // CHANGE 07
+    public void LevelDone()
+    {
+        Debug.Log("LEVEL DONE!!");
+
+        SceneController.Instance.LoadNextScene();
+        return;
+        _currentGameState = GameState.InBetween;
+        SetGameState(_currentGameState);
+    }
+
     public void SetGameState(GameState state)
     {
         switch (state)
@@ -175,6 +190,11 @@ public class LevelController : MonoBehaviour
             case GameState.Running:
                 Time.timeScale = 1;
                 _guiManager.SetPauseGUIActive(false);
+                break;
+            // CHANGE 04
+            case GameState.InBetween:
+                Time.timeScale = 0;
+                _guiController.OpenLevelDoneMenu();
                 break;
         }
     }

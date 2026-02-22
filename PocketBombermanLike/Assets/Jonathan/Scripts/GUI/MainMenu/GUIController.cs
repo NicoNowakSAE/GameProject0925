@@ -94,13 +94,21 @@ public class GUIController : MonoBehaviour
     public void StartGameFlow()
     {
         Debug.Log("[GUI CONTROLLER] Start game flow invoked -");
-        _sceneController.LoadScene("HealthTest");
+        // CHANGE 01
+        // _sceneController.LoadScene("HealthTest");
+        _sceneController.LoadNextScene();
     }
 
     public void OpenSettingsMenu()
     {
         Debug.Log("[GUI CONTROLLER] Open settings menu invoked -");
         ChangeMenu(MenuType.Settings);
+    }
+
+    // CHANGE 02:
+    public void OpenLevelDoneMenu()
+    {
+        
     }
 
     public void OpenQuitMenu()

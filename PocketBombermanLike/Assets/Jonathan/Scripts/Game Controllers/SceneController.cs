@@ -39,6 +39,18 @@ public class SceneController : MonoBehaviour
     public UnityEvent OnSceneLoadFinished;
 
     /// <summary>
+    /// Singleton Instance of the SceneController class
+    /// </summary>
+    
+    // CHANGE 08
+    private static SceneController _instance;
+    /// <summary>
+    /// Static Instance reference to a SceneController Object
+    /// </summary>
+    public static SceneController Instance { get => _instance; }
+
+
+    /// <summary>
     /// Collects all scene paths from the Build Settings by build index.
     /// </summary>
     /// <returns>
@@ -159,6 +171,7 @@ public class SceneController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        _instance = this; // CHANGE 09
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
