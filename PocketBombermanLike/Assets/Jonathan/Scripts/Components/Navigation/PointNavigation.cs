@@ -53,6 +53,17 @@ public class PointNavigation : MonoBehaviour
     public void SetActive(bool value)
     {
         _isActive = value;
+
+        if (value == false)
+        {
+            StopCoroutine(MovementLoop());
+        }
+
+        if (value == true && !_isMovementLoopAlreadyActive)
+        {
+            StartCoroutine(MovementLoop());
+        }
+
         Debug.Log($"[POINT NAVIGATION] Set active: {value} -");
     }
 
@@ -86,17 +97,11 @@ public class PointNavigation : MonoBehaviour
                 MoveTowards(_points[0]);
                 yield return new WaitForFixedUpdate();
             }
-            
+
             RemoveOldestPoint();
-            
+
         }
         _isMovementLoopAlreadyActive = false;
-    }
-
-    private void Update()
-    {
-        if (_isActive && !_isMovementLoopAlreadyActive)
-            StartCoroutine(MovementLoop());
     }
 
     private void OnDrawGizmos()
