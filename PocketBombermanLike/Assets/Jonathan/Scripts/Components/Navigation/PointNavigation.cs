@@ -1,13 +1,19 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Handles point-to-point navigation for a 2D object using a Rigidbody2D.
+/// Supports a dynamic list of points with distance-based thresholds.
+/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public class PointNavigation : MonoBehaviour
 {
+    [Tooltip("The minimum space between each tracked point.")]
     [SerializeField] private float _minPointSpacing = 5.0f;
+
+    [Tooltip("The maximum amount of points tracked.")]
     [SerializeField] private int _maxPointArraySize = 50;
 
     private List<Vector3> _points = new List<Vector3>();
@@ -23,6 +29,10 @@ public class PointNavigation : MonoBehaviour
         _transform = GetComponent<Transform>();
     }
 
+    /// <summary>
+    /// Adds a new destination point to the navigation list if it meets spacing and capacity requirements.
+    /// </summary>
+    /// <param name="point">The world space position to add.</param>
     public void AddPoint(Vector3 point)
     {
         if (_points.Count >= _maxPointArraySize)
@@ -39,9 +49,11 @@ public class PointNavigation : MonoBehaviour
         {
             _points.Add(point);
         }
-
     }
 
+    /// <summary>
+    /// Removes the first element (index 0) from the points list.
+    /// </summary>
     private void RemoveOldestPoint()
     {
         if (_points.Count <= 0)
@@ -50,6 +62,10 @@ public class PointNavigation : MonoBehaviour
         _points.RemoveAt(0);
     }
 
+    /// <summary>
+    /// Toggles the navigation movement on or off and manages the MovementLoop coroutine.
+    /// </summary>
+    /// <param name="value">True to enable movement, false to disable.</param>
     public void SetActive(bool value)
     {
         _isActive = value;
@@ -63,22 +79,30 @@ public class PointNavigation : MonoBehaviour
         {
             StartCoroutine(MovementLoop());
         }
-
-        Debug.Log($"[POINT NAVIGATION] Set active: {value} -");
     }
 
+    /// <summary>
+    /// Updates the movement speed used during navigation.
+    /// </summary>
+    /// <param name="speed">The new move speed value.</param>
     public void SetNavSpeed(float speed)
     {
         _navMoveSpeed = speed;
-        Debug.Log($"[POINT NAVIGATION] Set nav speed: {_navMoveSpeed} -");
     }
 
+    /// <summary>
+    /// Calculates direction and applies linear velocity to the Rigidbody2D toward a target.
+    /// </summary>
+    /// <param name="target">The destination position.</param>
     private void MoveTowards(Vector3 target)
     {
         Vector3 direction = (target - _transform.position).normalized;
         _rb.linearVelocity = direction * _navMoveSpeed;
     }
 
+    /// <summary>
+    /// The core logic loop that processes points in the list and moves the object toward them sequentially.
+    /// </summary>
     private IEnumerator MovementLoop()
     {
         _isMovementLoopAlreadyActive = true;
@@ -102,6 +126,9 @@ public class PointNavigation : MonoBehaviour
         _isMovementLoopAlreadyActive = false;
     }
 
+    /// <summary>
+    /// Visualizes the navigation path in the Unity Editor Scene View using spheres and lines.
+    /// </summary>
     private void OnDrawGizmos()
     {
         if (_points == null || _points.Count == 0)

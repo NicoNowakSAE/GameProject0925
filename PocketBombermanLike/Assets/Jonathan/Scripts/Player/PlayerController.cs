@@ -91,8 +91,6 @@ public class PlayerController : MonoBehaviour
             bool isPauseMenuActive = _guiManager.IsPauseMenuActive;
 
             _guiManager.SetPauseGUIActive(!isPauseMenuActive);
-            
-
         }
 
 #if UNITY_EDITOR

@@ -7,6 +7,10 @@ using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Manages the core level lifecycle, including player spawning, enemy tracking, 
+/// pause states, and level completion conditions.
+/// </summary>
 [RequireComponent(typeof(Timer))]
 public class LevelController : MonoBehaviour
 {
@@ -18,30 +22,54 @@ public class LevelController : MonoBehaviour
     [SerializeField] private float _levelEndDistanceTreshold = 1.5f;
 
     private GameObject _startAnchor;
+    /// <summary> The world position of the level's start anchor. </summary>
     public Vector3 LevelStartPosition => _startAnchor.transform.position;
+    
     private GameObject _endAnchor;
+    /// <summary> The world position of the level's end anchor. </summary>
     public Vector3 LevelEndPosition => _endAnchor.transform.position;
+    
     private GameObject _player;
     private Health _playerHealth;
+    
+    /// <summary> Event triggered when the player reaches the end anchor after all enemies are defeated. </summary>
     public UnityEvent OnPlayerTouchEnd;
+    
     private bool _isPlayerEndTouchSatisfied = false;
     private Timer _timer;
+    
+    /// <summary> The total time elapsed since the level started. </summary>
     public TimeSpan TimeElapsed => _timer.TimeElapsed;
+    
     private int _enemiesRemaining = 999;
+    /// <summary> Current count of active enemies in the level. </summary>
     public int EnemiesRemaining => _enemiesRemaining;
+    
     private int _heartsCount = 3;
+    /// <summary> Current count of player hearts/lives. </summary>
     public int HeartsCount => _heartsCount;
+    
     private string[] _activePowerups;
+    /// <summary> List of powerup identifiers currently active on the player. </summary>
     public string[] ActivePowerups => _activePowerups;
+    
     [SerializeField] private int _currentLevel = 999;
+    /// <summary> The index or ID of the current level. </summary>
     public int CurrentLevel => _currentLevel;
+    
+    /// <summary> The current health value of the player entity. </summary>
     public float PlayerHealth => _playerHealth.CurrentHealth;
     
     private GameState _currentGameState = GameState.Running;
     private PlayerInput _playerInput;
     private GUIManager _guiManager;
+    
+    /// <summary> Static reference to the LevelController for global access. </summary>
     public static LevelController Instance;
 
+    /// <summary>
+    /// Helper method to retrieve all GameObjects currently active in the scene.
+    /// </summary>
     private GameObject[] GetAllObjectsInScene() => FindObjectsByType<GameObject>(FindObjectsSortMode.InstanceID);
 
     private void Awake()
@@ -53,12 +81,19 @@ public class LevelController : MonoBehaviour
 
         Instance = this;
     }
+
+    /// <summary>
+    /// Scans the scene to count GameObjects associated with the enemy layer.
+    /// </summary>
     private int GetEnemyCount()
     {
         GameObject[] enemiesInScene = GetAllObjectsInScene().Where(e => e.layer == _enemyLayerMask).ToArray();
         return enemiesInScene.Count();
     }
 
+    /// <summary>
+    /// Resets the player's position to the start anchor and restores their health.
+    /// </summary>
     private void SpawnPlayer()
     {
         _player.transform.position = _startAnchor.transform.position;
@@ -66,6 +101,9 @@ public class LevelController : MonoBehaviour
         _playerHealth.SetAlive(true);
     }
     
+    /// <summary>
+    /// Locates and assigns the Start and End LevelAnchor objects in the scene.
+    /// </summary>
     private void FetchLevelAnchors()
     {
         foreach (GameObject obj in GetAllObjectsInScene())
@@ -100,6 +138,9 @@ public class LevelController : MonoBehaviour
             Debug.LogWarning("[LEVEL CONTROLLER] No start anchor found -");
     }
 
+    /// <summary>
+    /// Finds the player object in the scene based on layer and hierarchy status.
+    /// </summary>
     private void FetchPlayer()
     {
         GameObject[] playerObj = GetAllObjectsInScene().Where(obj => obj.layer == _playerLayerMask).Where(obj => obj.transform.parent == null).ToArray();
@@ -120,6 +161,9 @@ public class LevelController : MonoBehaviour
         _playerHealth = _player.GetComponent<Health>();
     }
 
+    /// <summary>
+    /// Starts the timer, fetches scene references, and initializes enemy tracking.
+    /// </summary>
     private void Start()
     {
         _timer = GetComponent<Timer>();
@@ -137,6 +181,9 @@ public class LevelController : MonoBehaviour
         Debug.Log($"[LEVEL CONTROLLER] Found player: {_player != null}");
     }
 
+    /// <summary>
+    /// Decrements the enemy counter. Called when an enemy is defeated.
+    /// </summary>
     public void RemoveEntity()
     {
         // todo: refactor this
@@ -146,6 +193,9 @@ public class LevelController : MonoBehaviour
             _enemiesRemaining = 0;
     }
 
+    /// <summary>
+    /// Sets the game state to Paused and stops the time scale.
+    /// </summary>
     public void PauseGame()
     {
         if (_currentGameState == GameState.Paused)
@@ -155,6 +205,9 @@ public class LevelController : MonoBehaviour
         Time.timeScale = 0.0f;
     }
 
+    /// <summary>
+    /// Sets the game state to Running and restores the time scale.
+    /// </summary>
     public void ResumeGame()
     {
         if (_currentGameState == GameState.Running)
@@ -164,6 +217,10 @@ public class LevelController : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
+    /// <summary>
+    /// Sets the game state and updates the GUI Manager and time scale accordingly.
+    /// </summary>
+    /// <param name="state">The target GameState to transition to.</param>
     public void SetGameState(GameState state)
     {
         switch (state)
@@ -179,7 +236,9 @@ public class LevelController : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Monitors win conditions (enemies cleared + distance to end) and handles pause input toggling.
+    /// </summary>
     private void Update()
     {
         if (_enemiesRemaining <= 0 && !_endAnchor.activeInHierarchy)
