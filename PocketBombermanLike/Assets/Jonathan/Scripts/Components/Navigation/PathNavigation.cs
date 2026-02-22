@@ -16,7 +16,6 @@ public class PathNavigation : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _transform = GetComponent<Transform>();
-        Debug.Log($"[PATH NAVIGATION] Found {_pathNavPoints.Count} points to navigate -");
     }
 
     private void Start()
@@ -40,11 +39,13 @@ public class PathNavigation : MonoBehaviour
                 _currTargetPosIdx = 0;
 
             Vector3 targetPoint = _pathNavPoints[_currTargetPosIdx].Position;
-            Vector2 dir = transform.TransformDirection(targetPoint - _transform.position);
             float sqrDistanceToNextPoint = (targetPoint - _transform.position).sqrMagnitude;
 
             while (sqrDistanceToNextPoint > 20 && _pathNavPoints.Count > 1)
+            {
                 MoveTowards(targetPoint);
+                yield return new WaitForFixedUpdate();
+            }
 
             _currTargetPosIdx++;
 
