@@ -6,12 +6,6 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour, IRideable
 {
     private List<RiderData> _riderData = new List<RiderData>();
-    private PathNavigation _pathNav;
-
-    private void Awake()
-    {
-        _pathNav = GetComponent<PathNavigation>();
-    }
 
     public void Attach(GameObject attachObject)
     {
