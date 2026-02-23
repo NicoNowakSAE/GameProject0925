@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 8140983830260077216}
   - component: {fileID: 2578609727483172016}
   - component: {fileID: 5589979665530422933}
+  - component: {fileID: 9118686768282703726}
   - component: {fileID: 6412927536937718288}
   - component: {fileID: 400218158316868232}
   m_Layer: 3
@@ -184,7 +185,7 @@ MonoBehaviour:
   _checkBoxOffset: {x: 0, y: -0.5}
   _groundLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
 --- !u!114 &2578609727483172016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +221,21 @@ MonoBehaviour:
   _maxBombCount: 1
   _bombPoolSize: 5
   _bombRadius: 5
+--- !u!114 &9118686768282703726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297325544570057579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3fd61e963c70384c9b3673588e9ffa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rideableLayers:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!50 &6412927536937718288
 Rigidbody2D:
   serializedVersion: 5

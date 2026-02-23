@@ -4,6 +4,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Manages the AI behavior for an aggressive enemy that toggles between 
+/// mathematical figure-eight patrolling and point-based player chasing.
+/// </summary>
 [RequireComponent(typeof(MovementController), typeof(PointNavigation))]
 public class AggroDudeBehaviour : MonoBehaviour
 {
@@ -19,6 +23,7 @@ public class AggroDudeBehaviour : MonoBehaviour
     [SerializeField] private GameObject _player;
     [SerializeField] private List<StateMovementspeedPair> _movementStateSpeeds = new List<StateMovementspeedPair>();
     [SerializeField] private float _playerDistanceThreshold = 0.25f;
+
     private void Awake()
     {
         _transform = GetComponent<Transform>();
@@ -30,6 +35,9 @@ public class AggroDudeBehaviour : MonoBehaviour
         _pointNav.SetNavSpeed(_movementStateSpeeds.First(pair => pair.State == ChasingEnemyState.Chasing).Speed);
     }
 
+    /// <summary>
+    /// Visualizes the detection ray towards the player in the Scene View.
+    /// </summary>
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -43,6 +51,10 @@ public class AggroDudeBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculates a figure-eight position based on time and patrolling speed, 
+    /// then moves the Rigidbody2D to that position.
+    /// </summary>
     private void PerformPatrollingMovement()
     {
         float t = Time.time * _movementStateSpeeds.First(pair => pair.State == ChasingEnemyState.Patrolling).Speed;
@@ -55,6 +67,10 @@ public class AggroDudeBehaviour : MonoBehaviour
         _rb.MovePosition(target);
     }
 
+    /// <summary>
+    /// Continuously feeds the player's current position into the PointNavigation system 
+    /// as long as the enemy is in the Chasing state and the player has moved beyond the threshold.
+    /// </summary>
     private IEnumerator TrackPlayerNavPoints()
     {
         _pointNav.SetActive(true);
@@ -73,6 +89,10 @@ public class AggroDudeBehaviour : MonoBehaviour
         _pointNav.SetActive(false);
     }
 
+    /// <summary>
+    /// Evaluates the current state machine. Handles transition from Patrolling to Chasing 
+    /// based on Line of Sight, and initiates the player tracking coroutine.
+    /// </summary>
     private void Update()
     {
         switch (_currentState)
