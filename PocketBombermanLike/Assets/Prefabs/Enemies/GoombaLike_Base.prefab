@@ -100,7 +100,7 @@ MonoBehaviour:
     Width: 0.68
   _layersToCheck:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 1408
 --- !u!50 &8211249304711806676
 Rigidbody2D:
   serializedVersion: 5

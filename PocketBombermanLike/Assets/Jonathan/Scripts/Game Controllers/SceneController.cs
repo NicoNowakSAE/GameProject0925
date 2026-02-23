@@ -53,6 +53,8 @@ public class SceneController : MonoBehaviour
 
     [SerializeField] private SceneAsset _guiContentScene;
 
+    [SerializeField] private bool _loadGuiScene;
+
     /// <summary>
     /// Collects all scene paths from the Build Settings by build index.
     /// </summary>
@@ -201,10 +203,10 @@ public class SceneController : MonoBehaviour
 
     private void LoadGUIContentScene()
     {
-        string sceneName = "GUIContent";
+        string sceneName = _guiContentScene.name;
         LoadScene(sceneName, LoadSceneMode.Additive);
     }
-    
+
     /// <summary>
     /// Registers scene load callback and marks this object as persistent.
     /// </summary>
@@ -213,7 +215,8 @@ public class SceneController : MonoBehaviour
         _instance = this; // CHANGE 09
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        OnSceneLoadFinished.AddListener(LoadGUIContentScene);
+        if (_loadGuiScene)
+            OnSceneLoadFinished.AddListener(LoadGUIContentScene);
     }
 
     /// <summary>
@@ -224,6 +227,10 @@ public class SceneController : MonoBehaviour
     {
         Debug.Log($"[SCENE CONTROLLER] Scene loaded successfully, name='{scene.name}' -");
 
-        OnSceneLoadFinished?.Invoke();
+        if (mode != LoadSceneMode.Additive)
+        {
+            OnSceneLoadFinished?.Invoke();
+        }
+        
     }
 }

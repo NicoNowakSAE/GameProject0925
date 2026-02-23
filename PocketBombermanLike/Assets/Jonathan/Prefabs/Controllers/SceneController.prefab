@@ -50,3 +50,4 @@ MonoBehaviour:
   OnSceneLoadFinished:
     m_PersistentCalls:
       m_Calls: []
+  _guiContentScene: {fileID: 102900000, guid: bf623705f624b61499c97aea1c659c2e, type: 3}
