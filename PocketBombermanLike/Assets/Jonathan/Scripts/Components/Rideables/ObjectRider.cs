@@ -51,9 +51,9 @@ public class ObjectRider : MonoBehaviour
         if (!isGrounded)
             return;
 
-        if (collisionObj.gameObject.layer != _rideableLayers) 
+        if ((_rideableLayers.value & (1 << collisionObj.gameObject.layer)) == 0)
             return;
-            
+
         if (IsObjectRideable(collision.gameObject, out rideable))
         {
             rideable.Attach(this.gameObject);
