@@ -129,11 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81ac44555091abf40a520625111796c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pathNavPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _pathNavPoints: []
   _navMoveSpeed: 2
   _distanceThreshold: 0.025
   _targetCooldownTime: 5

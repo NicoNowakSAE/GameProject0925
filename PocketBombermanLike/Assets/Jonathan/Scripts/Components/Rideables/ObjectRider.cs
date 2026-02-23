@@ -46,11 +46,14 @@ public class ObjectRider : MonoBehaviour
         // }
 
         IRideable rideable;
-        bool isGrounded = _groundCheck.Check();
+        bool isGrounded = _groundCheck.Check(out Collider2D collisionObj);
         
         if (!isGrounded)
             return;
 
+        if (collisionObj.gameObject.layer != _rideableLayers) 
+            return;
+            
         if (IsObjectRideable(collision.gameObject, out rideable))
         {
             rideable.Attach(this.gameObject);

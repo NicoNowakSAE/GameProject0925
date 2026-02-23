@@ -28,6 +28,23 @@ public class GroundCheck : MonoBehaviour
         }
     }
 
+    public bool Check(out Collider2D _)
+    {
+        Collider2D collider = Physics2D.OverlapBox(
+            new Vector2(_transform.position.x, _transform.position.y) + _checkBoxOffset,
+            _checkBoxDimensions,
+            0.0f,
+            _groundLayers
+        );
+
+        _ = collider;
+
+        if (collider != null)
+            return true;
+        else
+            return false;
+    }
+
     public bool Check()
     {
         Collider2D collider = Physics2D.OverlapBox(
@@ -37,10 +54,11 @@ public class GroundCheck : MonoBehaviour
             _groundLayers
         );
 
+        _ = collider;
+
         if (collider != null)
             return true;
         else
             return false;
-
     }
 }
