@@ -4,9 +4,7 @@ using System.Linq;
 
 /// <summary>
 /// Controls an object's movement along a predefined path of PathNavPoint objects.
-/// Uses Rigidbody2D for movement and includes support for distance thresholds and per-point cooldowns.
 /// </summary>
-[RequireComponent(typeof(Rigidbody2D))]
 public class PathNavigation : MonoBehaviour
 {
     [Header("Path Points")]
@@ -28,15 +26,11 @@ public class PathNavigation : MonoBehaviour
     [SerializeField] private float _targetCooldownTime = 0.0f;
 
     private float _currCooldownTime = 0.0f;
-    private Rigidbody2D _rb;
     private Transform _transform;
     private int _currTargetPosIdx = 0;
-    private Vector2 _lastFrameDelta;
-    public Vector2 LastFrameDelta => _lastFrameDelta;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
         _transform = GetComponent<Transform>();
     }
 
@@ -52,15 +46,10 @@ public class PathNavigation : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles the physics-based movement logic, distance checking, and path indexing.
+    /// Updates the internal cooldown timer using frame-independent time.
     /// </summary>
-    private void FixedUpdate()
+    private void Update()
     {
-        if (_currTargetPosIdx > _pathNavPoints.Count - 1)
-        {
-            _currTargetPosIdx = 0;
-        }
-
         Vector3 targetPos = _pathNavPoints[_currTargetPosIdx].Position;
         float distance = (_transform.position - targetPos).sqrMagnitude;
 
@@ -72,19 +61,16 @@ public class PathNavigation : MonoBehaviour
         else
         {
             _currTargetPosIdx++;
-            _rb.linearVelocity = Vector2.zero;
-            _rb.position = targetPos;
-            _lastFrameDelta = Vector3.zero;
 
+            if (_currTargetPosIdx > _pathNavPoints.Count - 1)
+            {
+                _currTargetPosIdx = 0;
+            }
+
+            _transform.position = targetPos;
             _currCooldownTime = _targetCooldownTime;
         }
-    }
 
-    /// <summary>
-    /// Updates the internal cooldown timer using frame-independent time.
-    /// </summary>
-    private void Update()
-    {
         _currCooldownTime -= Time.deltaTime;
     }
 
@@ -94,15 +80,13 @@ public class PathNavigation : MonoBehaviour
     /// <param name="target">The world space position to move toward.</param>
     private void MoveTowards(Vector3 target)
     {
-        Vector2 currentPos = _rb.position;
+        Vector2 currentPos = _transform.position;
         Vector2 targetPos = (Vector2)target;
         Vector2 dir = (targetPos - currentPos).normalized;
 
-        Vector2 step = dir * _navMoveSpeed * Time.fixedDeltaTime;
+        Vector2 step = dir * _navMoveSpeed * Time.deltaTime;
 
-        _lastFrameDelta = step;
-
-        _rb.MovePosition(currentPos + step);
+        _transform.position += (Vector3)step;
     }
 
     private void OnDrawGizmos()
