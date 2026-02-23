@@ -36,15 +36,6 @@ public class ObjectRider : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        // if (_currRideableObj != null && collision.gameObject != _currRidableGameObject)
-        // {
-        //     _currRideableObj.Detach(this.gameObject);
-        //     _currRideableObj = null;
-        //     _currRidableGameObject = null;
-        //     return;
-        // }
-
         IRideable rideable;
         bool isGrounded = _groundCheck.Check(out Collider2D collisionObj);
         
