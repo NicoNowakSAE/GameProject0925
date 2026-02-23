@@ -69,7 +69,7 @@ MonoBehaviour:
   - State: 0
     Speed: 3
   - State: 1
-    Speed: 5
+    Speed: 3
   _playerDistanceThreshold: 1.5
 --- !u!114 &4487090610441201114
 MonoBehaviour:
@@ -117,7 +117,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 896
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

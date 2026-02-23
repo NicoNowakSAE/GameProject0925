@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -49,6 +51,7 @@ public class SceneController : MonoBehaviour
     /// </summary>
     public static SceneController Instance { get => _instance; }
 
+    [SerializeField] private SceneAsset _guiContentScene;
 
     /// <summary>
     /// Collects all scene paths from the Build Settings by build index.
@@ -151,6 +154,21 @@ public class SceneController : MonoBehaviour
     }
 
     /// <summary>
+    /// Loads the next scene based on the current scene's build index.
+    /// </summary>
+    public void LoadNextScene()
+    {
+        int nextIndex = CurrentScene.buildIndex + 1;
+
+        Debug.Log(
+            $"[SCENE CONTROLLER] LoadNextScene invoked, " +
+            $"currentIndex={CurrentScene.buildIndex}, nextIndex={nextIndex}, mode={LoadSceneMode.Single} -"
+        );
+
+        LoadScene(nextIndex, LoadSceneMode.Single);
+    }
+
+    /// <summary>
     /// Loads the previous scene based on the current scene's build index.
     /// </summary>
     /// <param name="mode">Scene loading mode.</param>
@@ -167,12 +185,35 @@ public class SceneController : MonoBehaviour
     }
 
     /// <summary>
+    /// Loads the next scene based on the current scene's build index.
+    /// </summary>
+    public void LoadPreviousScene()
+    {
+       int previousIndex = CurrentScene.buildIndex - 1;
+
+        Debug.Log(
+            $"[SCENE CONTROLLER] LoadPreviousScene invoked, " +
+            $"currentIndex={CurrentScene.buildIndex}, nextIndex={previousIndex}, mode={LoadSceneMode.Single} -"
+        );
+
+        LoadScene(previousIndex, LoadSceneMode.Single);
+    }
+
+    private void LoadGUIContentScene()
+    {
+        string sceneName = "GUIContent";
+        LoadScene(sceneName, LoadSceneMode.Additive);
+    }
+    
+    /// <summary>
     /// Registers scene load callback and marks this object as persistent.
     /// </summary>
     private void Awake()
     {
         _instance = this; // CHANGE 09
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        OnSceneLoadFinished.AddListener(LoadGUIContentScene);
     }
 
     /// <summary>

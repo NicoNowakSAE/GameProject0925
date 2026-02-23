@@ -226,7 +226,7 @@ MonoBehaviour:
   _explosionPrefab: {fileID: 1656262821360229677, guid: b21caebd4c9100548a0bf5721cdfdc27, type: 3}
   _bombHitLayerMask:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 1096
 --- !u!61 &1666037492724661063
 BoxCollider2D:
   m_ObjectHideFlags: 0

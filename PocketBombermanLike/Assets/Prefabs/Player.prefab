@@ -121,8 +121,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.95, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9050980860724064522}
   m_Father: {fileID: 0}
@@ -185,7 +185,7 @@ MonoBehaviour:
   _checkBoxOffset: {x: 0, y: -0.5}
   _groundLayers:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 1664
 --- !u!114 &2578609727483172016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,5 +307,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0

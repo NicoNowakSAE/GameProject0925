@@ -36,10 +36,9 @@ public class LevelController : MonoBehaviour
     [SerializeField] private int _currentLevel = 999;
     public int CurrentLevel => _currentLevel;
     public float PlayerHealth => _playerHealth.CurrentHealth;
-    
+
     private GameState _currentGameState = GameState.Running;
     private PlayerInput _playerInput;
-    private GUIManager _guiManager;
     private GUIController _guiController;
     public static LevelController Instance;
 
@@ -50,12 +49,16 @@ public class LevelController : MonoBehaviour
         _playerLayerMask = LayerMask.NameToLayer("Player");
         _enemyLayerMask = LayerMask.NameToLayer("Enemy");
         _playerInput = FindFirstObjectByType<PlayerInput>();
-        _guiManager = FindFirstObjectByType<GUIManager>();
-        // CHANGE 05
-        _guiController = FindFirstObjectByType<GUIController>();
+
+        if (Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
 
         Instance = this;
     }
+
     private int GetEnemyCount()
     {
         GameObject[] enemiesInScene = GetAllObjectsInScene().Where(e => e.layer == _enemyLayerMask).ToArray();
@@ -68,7 +71,7 @@ public class LevelController : MonoBehaviour
         _playerHealth.Gain(_playerHealth.BaseHealth);
         _playerHealth.SetAlive(true);
     }
-    
+
     private void FetchLevelAnchors()
     {
         foreach (GameObject obj in GetAllObjectsInScene())
@@ -150,33 +153,33 @@ public class LevelController : MonoBehaviour
             _enemiesRemaining = 0;
     }
 
-    public void PauseGame()
-    {
-        if (_currentGameState == GameState.Paused)
-            return;
-        
-        _currentGameState = GameState.Paused;
-        Time.timeScale = 0.0f;
-    }
-
-    public void ResumeGame()
-    {
-        if (_currentGameState == GameState.Running)
-            return;
-
-        _currentGameState = GameState.Running;
-        Time.timeScale = 1.0f;
-    }
-
     // CHANGE 07
     public void LevelDone()
     {
         Debug.Log("LEVEL DONE!!");
 
         SceneController.Instance.LoadNextScene();
+        SetGameState(GameState.InBetween);
         return;
-        _currentGameState = GameState.InBetween;
-        SetGameState(_currentGameState);
+        
+    }
+
+    /// <summary>
+    /// Switches between <see cref="GameState.Paused"/> and <see cref="GameState.Running"/>.
+    /// </summary>
+    public void ToggleState()
+    {
+        print("[LEVEL CONTROLLER] ToggleState() Invoked... -");
+
+        switch (_currentGameState)
+        {
+            case GameState.Paused:
+                SetGameState(GameState.Running);
+                break;
+            case GameState.Running:
+                SetGameState(GameState.Paused);
+                break;
+        }
     }
 
     public void SetGameState(GameState state)
@@ -184,12 +187,12 @@ public class LevelController : MonoBehaviour
         switch (state)
         {
             case GameState.Paused:
-            _guiManager.SetPauseGUIActive(true);
+                GUIController.Instance.SetPauseGUIActive(true);
                 Time.timeScale = 0;
                 break;
             case GameState.Running:
                 Time.timeScale = 1;
-                _guiManager.SetPauseGUIActive(false);
+                GUIController.Instance.SetPauseGUIActive(false);
                 break;
             // CHANGE 04
             case GameState.InBetween:
@@ -197,6 +200,10 @@ public class LevelController : MonoBehaviour
                 _guiController.OpenLevelDoneMenu();
                 break;
         }
+
+        print($"[LEVEL CONTROLLER] Setting new game state: {state} -");
+
+        _currentGameState = state;
     }
 
 
@@ -214,22 +221,7 @@ public class LevelController : MonoBehaviour
             {
                 Debug.Log("[LEVEL CONTROLLER] Level end condition has been satisfied => Invoking OnPlayerTouchEnd Event now -");
                 _isPlayerEndTouchSatisfied = true;
-                OnPlayerTouchEnd.Invoke();
-            }
-        }
-
-        if (_playerInput.TogglePause.WasPressedThisFrame())
-        {
-            switch (_currentGameState)
-            {
-                case GameState.Paused:
-                    _currentGameState = GameState.Running;
-                    Time.timeScale = 1.0f;
-                    break;
-                case GameState.Running:
-                    _currentGameState = GameState.Paused;
-                    Time.timeScale = 0.0f;
-                    break;
+                OnPlayerTouchEnd?.Invoke();
             }
         }
     }

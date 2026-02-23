@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     private PlayerInput _playerInput;
     private RigidbodyMovement _rbMovement;
     private GroundCheck _groundCheck;
-    private GUIManager _guiManager;
     private float _groundedTimer;
 
     private int _extraJumpsRemaining;
@@ -25,8 +24,7 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _rbMovement = GetComponent<RigidbodyMovement>();
         _groundCheck = GetComponent<GroundCheck>();
-        _guiManager = FindFirstObjectByType<GUIManager>();
-
+        
         _extraJumpsRemaining = _totalExtraJumpsAvailable;
         _lastReceivedJumpsRemainingValue = _extraJumpsRemaining;
     }
@@ -87,11 +85,7 @@ public class PlayerController : MonoBehaviour
             _isJumpQueued = true;
 
         if (_playerInput.TogglePause.WasPressedThisFrame())
-        {
-            bool isPauseMenuActive = _guiManager.IsPauseMenuActive;
-
-            _guiManager.SetPauseGUIActive(!isPauseMenuActive);
-        }
+            LevelController.Instance.ToggleState();
 
 #if UNITY_EDITOR
         if (_lastReceivedJumpsRemainingValue != _totalExtraJumpsAvailable)
