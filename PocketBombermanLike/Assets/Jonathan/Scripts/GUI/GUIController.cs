@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class GUIController : MonoBehaviour
 {
-    public static GUIController Instance;
     private bool _isPauseMenuActive = false;
     public bool IsPauseMenuActive => _isPauseMenuActive;
     [SerializeField] private SceneController _sceneController;
@@ -19,11 +18,6 @@ public class GUIController : MonoBehaviour
     [SerializeField] private Canvas _settingsMenuGui;
 
     private Canvas _currentMenuGui = null;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     public void SetPauseGUIActive(bool value)
     {

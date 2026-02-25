@@ -212,7 +212,14 @@ public class SceneController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        if (_instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
         _instance = this; // CHANGE 09
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (_loadGuiScene)
