@@ -5,8 +5,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D), typeof(Transform))]
 public class RigidbodyMovement : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce = 10.0f;
+    private float _speed; // 10
+    private float _jumpForce = 10.0f; // 23
 
     private Rigidbody2D _rigidbody;
 
@@ -15,6 +15,12 @@ public class RigidbodyMovement : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    public void Init(PlayerStatsSystem.Stats stats)
+    {
+        _speed = stats.Speed;
+        _jumpForce = stats.JumpForce;
     }
 
     public void Move(Vector2 dir)

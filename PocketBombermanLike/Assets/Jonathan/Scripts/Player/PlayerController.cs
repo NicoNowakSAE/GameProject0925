@@ -18,13 +18,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool _canMove = true;
     [SerializeField][Range(0, 0.5f)] private float _coyoteTime = 0.13f;
 
+    PlayerStatsSystem _statsSystem;
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
         _rbMovement = GetComponent<RigidbodyMovement>();
         _groundCheck = GetComponent<GroundCheck>();
+        _statsSystem = GetComponent<PlayerStatsSystem>();
         
+        _statsSystem.Init();
+        _rbMovement.Init(_statsSystem.GetStats);
+
         _extraJumpsRemaining = _totalExtraJumpsAvailable;
         _lastReceivedJumpsRemainingValue = _extraJumpsRemaining;
     }
