@@ -3,12 +3,13 @@ using UnityEngine;
 public class PlayerStatsSystem : MonoBehaviour
 {
     [System.Serializable]
-    public struct Stats
+    public class Stats
     {
         public float Speed;
         public int JumpForce;
         public int BombCount;
         public int BombRange;
+
     }
 
     [SerializeField] private int _modifierLevels;
@@ -20,8 +21,13 @@ public class PlayerStatsSystem : MonoBehaviour
 
     public Stats GetStats => _playerStats;
 
+    private static PlayerStatsSystem _instance;
+    public static PlayerStatsSystem Instance => _instance;
+
     public void Init()
     {
+        _instance = this;
+        _playerStats = new Stats();
         ClearModifiers();
     }
 
@@ -75,6 +81,9 @@ public class PlayerStatsSystem : MonoBehaviour
 
     public void ClearModifiers()
     {
-        _playerStats = _playerBaseStats;
+        _playerStats.Speed  = _playerBaseStats.Speed;
+        _playerStats.JumpForce = _playerBaseStats.JumpForce;
+        _playerStats.BombCount = _playerBaseStats.BombCount;
+        _playerStats.BombRange = _playerBaseStats.BombRange;
     }
 }
