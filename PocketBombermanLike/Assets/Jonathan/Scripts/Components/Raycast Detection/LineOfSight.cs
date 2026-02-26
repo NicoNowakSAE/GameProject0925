@@ -1,7 +1,5 @@
-using Mono.Cecil;
-using UnityEditor.VersionControl;
+
 using UnityEngine;
-using UnityEngine.Events;
 
 /// <summary>
 /// Performs a 2D line-of-sight check using a raycast
@@ -31,6 +29,8 @@ public class LineOfSight : MonoBehaviour
     /// </summary>
     private Transform _transform;
 
+    private Vector2 _lastDirection = Vector2.zero;
+
     /// <summary>
     /// Caches required component references.
     /// </summary>
@@ -51,6 +51,8 @@ public class LineOfSight : MonoBehaviour
     /// </returns>
     public bool CheckTargets(Vector2 direction, Vector3 origin)
     {
+        _lastDirection = direction;
+
         RaycastHit2D hit = Physics2D.Raycast(
             origin,
             direction,
@@ -59,5 +61,31 @@ public class LineOfSight : MonoBehaviour
         );
 
         return hit.collider != null;
+    }
+
+    /// <summary>
+    /// Checks if a target is hit in the given direction
+    /// starting from the provided origin.
+    /// </summary>
+    /// <param name="direction">Normalized direction of the raycast.</param>
+    /// <param name="origin">World position where the raycast starts.</param>
+    /// <returns>
+    /// True if a collider on the target layers is hit,
+    /// otherwise false.
+    /// </returns>
+    public bool CheckTargets(Vector2 direction, Vector3 origin, out RaycastHit2D hit)
+    {
+        _lastDirection = direction;
+
+        RaycastHit2D raycastHit = Physics2D.Raycast(
+            origin,
+            direction,
+            _lineOfSightLength,
+            _lineOfSightTargetLayers
+        );
+
+        hit = raycastHit;
+
+        return raycastHit.collider != null;
     }
 }

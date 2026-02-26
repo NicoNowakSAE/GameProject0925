@@ -18,6 +18,7 @@ public class GoombaLike_Controller : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        EnemyCollection.Subscribe(gameObject);
         _behaviour = GetComponent<EntityBaseBehaviour>();
     }
 

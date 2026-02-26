@@ -30,7 +30,7 @@ public class AngryGoombaBehaviour : EntityBaseBehaviour, IBombHit
     /// <summary>
     /// Current state of the Goomba (Patrolling, Chasing, Exhausted).
     /// </summary>
-    [SerializeField] private ChasingEnemyState _currentState = ChasingEnemyState.Patrolling;
+    private ChasingEnemyState _currentState = ChasingEnemyState.Patrolling;
 
     #endregion
 
@@ -191,14 +191,11 @@ public class AngryGoombaBehaviour : EntityBaseBehaviour, IBombHit
         Debug.Log("[ANGRY GOOMBA] PerformChaseCycle: Coroutine ended -");
     }
 
-    public void Hit(int dmg)
-    {
-        _health.Die();
-    }
+    public void Hit(int dmg) => _health.Reduce(dmg);
 
     public override void OnDeath()
     {
-        LevelController.Instance.RemoveEntity();
+        EnemyCollection.Unsubscribe(gameObject);
     }
 
     #endregion

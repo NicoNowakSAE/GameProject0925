@@ -63,14 +63,11 @@ public class BaseGoombaLikeBehaviour : EntityBaseBehaviour, IBombHit
         }
     }
 
-    public void Hit(int dmg)
-    {
-        _health.Die();
-    }
+    public void Hit(int dmg) => _health.Reduce(dmg);
 
     public override void OnDeath()
     {
-        LevelController.Instance.RemoveEntity();
+        EnemyCollection.Unsubscribe(gameObject);
     }
 
     #endregion

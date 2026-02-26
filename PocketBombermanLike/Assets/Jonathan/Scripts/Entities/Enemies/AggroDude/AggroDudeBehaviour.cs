@@ -8,14 +8,15 @@ using System.Collections.Generic;
 /// Manages the AI behavior for an aggressive enemy that toggles between 
 /// mathematical figure-eight patrolling and point-based player chasing.
 /// </summary>
-[RequireComponent(typeof(MovementController), typeof(PointNavigation))]
-public class AggroDudeBehaviour : MonoBehaviour
+[RequireComponent(typeof(MovementController), typeof(PointNavigation), typeof(Health))]
+public class AggroDudeBehaviour : MonoBehaviour, IBombHit
 {
     private Transform _transform;
     private LineOfSight _lineOfSight;
     private Rigidbody2D _rb;
     private Vector3 _startPos;
     private PointNavigation _pointNav;
+    private Health _health;
     private bool _hasPointNavAlreadyStarted = false;
 
     private ChasingEnemyState _currentState = ChasingEnemyState.Patrolling;
@@ -24,6 +25,8 @@ public class AggroDudeBehaviour : MonoBehaviour
     [SerializeField] private List<StateMovementspeedPair> _movementStateSpeeds = new List<StateMovementspeedPair>();
     [SerializeField] private float _playerDistanceThreshold = 0.25f;
 
+    public void Hit(int dmg) => _health.Reduce(dmg);
+
     private void Awake()
     {
         _transform = GetComponent<Transform>();
@@ -31,7 +34,12 @@ public class AggroDudeBehaviour : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _startPos = _transform.position;
         _pointNav = GetComponent<PointNavigation>();
+        _health = GetComponent<Health>();
 
+        EnemyCollection.Subscribe(gameObject);
+
+        _health.OnEntityDeath.AddListener(() => {EnemyCollection.Unsubscribe(gameObject);});
+        
         _pointNav.SetNavSpeed(_movementStateSpeeds.First(pair => pair.State == ChasingEnemyState.Chasing).Speed);
     }
 

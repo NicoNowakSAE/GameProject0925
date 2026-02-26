@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -4872145891652155458}
   - component: {fileID: 1225990577787335270}
   - component: {fileID: 2723758784043305523}
+  - component: {fileID: 7956776863633042500}
   m_Layer: 6
   m_Name: GoombaLike_Angry
   m_TagString: Untagged
@@ -57,7 +58,6 @@ MonoBehaviour:
   _targetInSightSpeedMultiplier: 2
   _chaseDuration: 4
   _exhaustedDuration: 2
-  _currentState: 0
   OnChaseStart:
     m_PersistentCalls:
       m_Calls: []
@@ -86,7 +86,7 @@ MonoBehaviour:
     Width: 0.68
   _layersToCheck:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 1920
 --- !u!114 &6612851427887122456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentHealth: 0
-  _baseHp: 100
+  _baseHp: 1
   _canHealMoreThanBase: 0
   OnEntityDeath:
     m_PersistentCalls:
@@ -159,6 +159,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _turnInactiveOnDeath: 1
+  _useInvincibleFrames: 0
+  _invincibleFrameDuration: 0
 --- !u!61 &1225990577787335270
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -232,6 +234,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 6
+--- !u!114 &7956776863633042500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2475598003444952639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3523d15a570224b9204c91958eb0e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageableLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  _damageToDeal: 1
+  _damageBoxDimensions: {x: 1.5, y: 1}
+  _damageBoxOffset: {x: 0, y: 0}
 --- !u!1 &2747750987562819980
 GameObject:
   m_ObjectHideFlags: 0

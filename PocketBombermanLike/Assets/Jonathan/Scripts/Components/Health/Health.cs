@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Events;
+
+[RequireComponent(typeof(Timer))]
 public class Health : MonoBehaviour
 {
     [SerializeField] private float _currentHealth;
@@ -42,6 +45,25 @@ public class Health : MonoBehaviour
 
     [SerializeField] private bool _turnInactiveOnDeath = false;
 
+
+
+    [SerializeField] private bool _useInvincibleFrames;
+
+    [SerializeField] private float _invincibleFrameDuration;
+    private Timer _invincibleTimer;
+
+    private void Awake()
+    {
+        _invincibleTimer = GetComponent<Timer>();
+        HealthCollection.Subscribe(gameObject, this);
+        _currentHealth = _baseHp;
+    }
+
+    private void Start()
+    {
+        _invincibleTimer.StartTime();
+    }
+
     /// <summary>
     /// Removed a specified amount from an entity's health.
     /// </summary>
@@ -50,6 +72,12 @@ public class Health : MonoBehaviour
     /// </param>
     public void Reduce(float damageDealt)
     {
+        if (_invincibleTimer.TimeElapsed.TotalSeconds < _invincibleFrameDuration && _useInvincibleFrames)
+        {
+            Debug.Log($"[HEALTH] Can't reduce health because target is in invincible frame state (Time left: {_invincibleFrameDuration - _invincibleTimer.TimeElapsed.TotalSeconds}) -");
+            return;
+        }
+        
         float targetHp = _currentHealth - damageDealt;
 
         if (targetHp < 0)
@@ -57,6 +85,8 @@ public class Health : MonoBehaviour
 
         _currentHealth = targetHp;
         Debug.Log($"[HEALTH] Reduced health of {gameObject.name} by {damageDealt} => Health now: {_currentHealth} -");
+
+        _invincibleTimer.ResetTime();
     }
 
     public void SetAlive(bool value)
@@ -86,11 +116,6 @@ public class Health : MonoBehaviour
     /// default health value.
     /// </summary>
     public void Reset() { _currentHealth = _baseHp; }
-
-    private void Start()
-    {
-        _currentHealth = _baseHp;
-    }
 
     /// <summary>
     /// Forces instant death of an entity.

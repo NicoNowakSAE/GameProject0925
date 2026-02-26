@@ -13,8 +13,11 @@ GameObject:
   - component: {fileID: 2699007168970716883}
   - component: {fileID: 4487090610441201114}
   - component: {fileID: 8450062025483246385}
+  - component: {fileID: 3568277106653247750}
+  - component: {fileID: 4382720652305408407}
   - component: {fileID: 6551215203735929206}
   - component: {fileID: 5291841087789831330}
+  - component: {fileID: 8406105329659663945}
   m_Layer: 6
   m_Name: AggroDude
   m_TagString: Untagged
@@ -101,6 +104,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minPointSpacing: 0.5
   _maxPointArraySize: 3
+--- !u!114 &3568277106653247750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100039008129094951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3523d15a570224b9204c91958eb0e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageableLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  _damageToDeal: 1
+  _damageBoxDimensions: {x: 1.5, y: 1}
+  _damageBoxOffset: {x: 0, y: 0}
+--- !u!114 &4382720652305408407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100039008129094951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779a8605c8d94b849bab1bd59975a1aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentHealth: 0
+  _baseHp: 1
+  _canHealMoreThanBase: 0
+  OnEntityDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  _turnInactiveOnDeath: 1
+  _useInvincibleFrames: 0
+  _invincibleFrameDuration: 0
 --- !u!58 &6551215203735929206
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -164,6 +206,39 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &8406105329659663945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100039008129094951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779a8605c8d94b849bab1bd59975a1aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentHealth: 0
+  _baseHp: 1
+  _canHealMoreThanBase: 0
+  OnEntityDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelController, Assembly-CSharp
+        m_MethodName: RemoveEntity
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _turnInactiveOnDeath: 1
+  _useInvincibleFrames: 0
+  _invincibleFrameDuration: 0
 --- !u!1 &1972408553487503117
 GameObject:
   m_ObjectHideFlags: 0
