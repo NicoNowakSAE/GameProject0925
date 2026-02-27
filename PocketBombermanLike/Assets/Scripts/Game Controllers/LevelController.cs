@@ -38,7 +38,6 @@ public class LevelController : MonoBehaviour
 
     private GameState _currentGameState = GameState.Running;
     private PlayerInput _playerInput;
-    private GUIController _guiController;
     public static LevelController Instance;
 
     private GameObject[] GetAllObjectsInScene() => FindObjectsByType<GameObject>(FindObjectsSortMode.InstanceID);
@@ -147,7 +146,7 @@ public class LevelController : MonoBehaviour
     {
         Debug.Log("LEVEL DONE!!");
 
-        SceneController.Instance.LoadNextScene();
+        // SceneController.Instance.LoadNextScene();
         SetGameState(GameState.InBetween);
         return;
         
@@ -186,6 +185,9 @@ public class LevelController : MonoBehaviour
             case GameState.InBetween:
                 Time.timeScale = 0;
                 GUIController.Instance?.OpenLevelDoneMenu();
+                break;
+            case GameState.None:
+                Time.timeScale = 1;
                 break;
         }
 

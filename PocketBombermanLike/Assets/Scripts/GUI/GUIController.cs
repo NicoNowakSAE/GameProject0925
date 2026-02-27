@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class GUIController : MonoBehaviour
@@ -16,6 +11,8 @@ public class GUIController : MonoBehaviour
     [SerializeField] private Canvas _pauseMenuGui;
     [SerializeField] private Canvas _mainMenuGui;
     [SerializeField] private Canvas _settingsMenuGui;
+    [SerializeField] private Canvas _levelDoneMenuGui;
+    [SerializeField] private Canvas _levelWinMenuGui;
 
     private Canvas _currentMenuGui = null;
 
@@ -35,8 +32,20 @@ public class GUIController : MonoBehaviour
         _isPauseMenuActive = value;
     }
 
-    public void ResumeGame()
+    public void ButtonClick_ResumeGame()
     {
+        LevelController.Instance.SetGameState(GameState.Running);
+    }
+
+    public void ButtonClick_BackToMainMenu()
+    {
+        SceneController.Instance.LoadScene("MainMenu");
+        LevelController.Instance.SetGameState(GameState.None);
+    }
+
+    public void ButtonClick_LoadNextLevel()
+    {
+        SceneController.Instance.LoadNextScene();
         LevelController.Instance.SetGameState(GameState.Running);
     }
 
@@ -72,6 +81,13 @@ public class GUIController : MonoBehaviour
         _sceneController.LoadNextScene();
     }
 
+    public void OpenWinMenu()
+    {
+        Debug.Log("[GUI CONTROLLER] Open win menu invoked -");
+        LevelController.Instance.SetGameState(GameState.InBetween);
+        ChangeMenu(_levelWinMenuGui);
+    }
+
     public void OpenSettingsMenu()
     {
         Debug.Log("[GUI CONTROLLER] Open settings menu invoked -");
@@ -80,7 +96,8 @@ public class GUIController : MonoBehaviour
 
     public void OpenLevelDoneMenu()
     {
-
+        Debug.Log("[GUI CONTROLLER] Open level done menu invoked -");
+        ChangeMenu(_levelDoneMenuGui);
     }
 
     public void OpenQuitMenu()
