@@ -9,7 +9,6 @@ public class PlayerStatsSystem : MonoBehaviour
         public int JumpForce;
         public int BombCount;
         public int BombRange;
-
     }
 
     [SerializeField] private int _modifierLevels;

@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         
         _statsSystem.Init();
         _rbMovement.Init(_statsSystem.GetStats);
+        // _bomb.Init(reference)
 
         _extraJumpsRemaining = _totalExtraJumpsAvailable;
         _lastReceivedJumpsRemainingValue = _extraJumpsRemaining;

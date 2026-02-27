@@ -14,13 +14,15 @@ public class StatModifier : MonoBehaviour
 
     [SerializeField] private int _amount = 1;
     [SerializeField] private bool _destroyOnTrigger = true;
+    [SerializeField] private LayerMask _collisionLayer;
 
     public Type GetType { get => _type; }
     public int GetAmount { get => _amount; }
 
-    public void OnTriggerExit2D(Collider2D collision)
+
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") == false)
+        if ((_collisionLayer.value & (1 << collision.gameObject.layer)) == 0)
             return;
 
         PlayerStatsSystem.Instance.AddModifier(this);
