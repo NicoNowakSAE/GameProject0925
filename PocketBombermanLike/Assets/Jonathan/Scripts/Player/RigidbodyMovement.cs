@@ -11,14 +11,15 @@ public class RigidbodyMovement : MonoBehaviour
 
     PlayerStatsSystem.Stats _stats;
 
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
 
     public void Init(PlayerStatsSystem.Stats stats)
     {
         _stats = stats;
+    }
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     public void Move(Vector2 dir)

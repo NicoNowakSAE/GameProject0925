@@ -48,7 +48,6 @@ public class LevelController : MonoBehaviour
         _playerLayerMask = LayerMask.NameToLayer("Player");
         _enemyLayerMask = LayerMask.NameToLayer("Enemy");
         _playerInput = FindFirstObjectByType<PlayerInput>();
-        _guiController = FindFirstObjectByType<GUIController>();
 
         if (Instance != null)
         {
@@ -108,7 +107,7 @@ public class LevelController : MonoBehaviour
 
     private void FetchPlayer()
     {
-        GameObject[] playerObj = GetAllObjectsInScene().Where(obj => obj.layer == _playerLayerMask).Where(obj => obj.transform.parent == null).ToArray();
+        GameObject[] playerObj = GetAllObjectsInScene().Where(obj => obj.layer == _playerLayerMask).ToArray();
 
         if (playerObj.Count() == 0)
         {
@@ -177,17 +176,16 @@ public class LevelController : MonoBehaviour
         switch (state)
         {
             case GameState.Paused:
-                _guiController.SetPauseGUIActive(true);
+                GUIController.Instance?.SetPauseGUIActive(true);
                 Time.timeScale = 0;
                 break;
             case GameState.Running:
                 Time.timeScale = 1;
-                _guiController.SetPauseGUIActive(false);
+                GUIController.Instance?.SetPauseGUIActive(false);
                 break;
-            // CHANGE 04
             case GameState.InBetween:
                 Time.timeScale = 0;
-                _guiController.OpenLevelDoneMenu();
+                GUIController.Instance?.OpenLevelDoneMenu();
                 break;
         }
 

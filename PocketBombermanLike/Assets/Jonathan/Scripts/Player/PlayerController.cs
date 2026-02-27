@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerInput _playerInput;
     private RigidbodyMovement _rbMovement;
+    private PlayerStatsSystem _statsSystem;
+    private BombController _bombController;
+
     private GroundCheck _groundCheck;
     private float _groundedTimer;
 
@@ -18,17 +21,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool _canMove = true;
     [SerializeField][Range(0, 0.5f)] private float _coyoteTime = 0.13f;
 
-    PlayerStatsSystem _statsSystem;
+
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
         _rbMovement = GetComponent<RigidbodyMovement>();
         _groundCheck = GetComponent<GroundCheck>();
+        _bombController = GetComponent<BombController>();
         _statsSystem = GetComponent<PlayerStatsSystem>();
-        
+
+
         _statsSystem.Init();
         _rbMovement.Init(_statsSystem.GetStats);
+        _bombController.Init(_statsSystem.GetStats, _statsSystem.GetMaxStats.BombCount);
         // _bomb.Init(reference)
 
         _extraJumpsRemaining = _totalExtraJumpsAvailable;

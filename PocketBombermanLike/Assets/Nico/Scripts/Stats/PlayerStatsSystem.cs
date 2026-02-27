@@ -16,6 +16,8 @@ public class PlayerStatsSystem : MonoBehaviour
     [SerializeField] private Stats _playerBaseStats;
     [SerializeField] private Stats _playerMaxStats;
 
+    public Stats GetMaxStats => _playerMaxStats;
+
     private Stats _playerStats;
 
     public Stats GetStats => _playerStats;

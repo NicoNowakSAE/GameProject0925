@@ -19,6 +19,15 @@ public class GUIController : MonoBehaviour
 
     private Canvas _currentMenuGui = null;
 
+    private static GUIController _instance;
+
+    public static GUIController Instance => _instance;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
+
     public void SetPauseGUIActive(bool value)
     {
         Debug.Log("[GUI MANAGER] SetPauseGUIActive => " + value);
@@ -64,7 +73,6 @@ public class GUIController : MonoBehaviour
         ChangeMenu(_settingsMenuGui);
     }
 
-    // CHANGE 02:
     public void OpenLevelDoneMenu()
     {
 

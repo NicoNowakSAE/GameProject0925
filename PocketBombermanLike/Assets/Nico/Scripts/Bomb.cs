@@ -20,11 +20,6 @@ public class Bomb : MonoBehaviour
 
     private int _bombRadius;
 
-    void Start()
-    {
-
-    }
-
     public void Init(Action<Bomb> callback)
     {
         _despawnCallback = callback;

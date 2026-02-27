@@ -6,14 +6,22 @@ public class BombController : MonoBehaviour
     [SerializeField]
     private GameObject _bombPrefab;
 
-    [SerializeField] private int _maxBombCount;
     private int _curBombCount = 0;
 
-    [SerializeField] private int _bombPoolSize = 5;
-    [SerializeField] private int _bombRadius = 3;
+    private int _bombPoolSize;
 
     private List<Bomb> _bombPool = new List<Bomb>();
-    private void Awake()
+
+    PlayerStatsSystem.Stats _stats;
+
+    public void Init(PlayerStatsSystem.Stats stats, int maxbombs)
+    {
+        _stats = stats;
+        _bombPoolSize = maxbombs;
+        InitialiseBombPool();
+    }
+
+    private void InitialiseBombPool()
     {
         GameObject bombcontainer = new GameObject("BombContainer");
 
@@ -40,7 +48,7 @@ public class BombController : MonoBehaviour
             if (_bombPool[i].gameObject.activeSelf == false)
             {
                 _bombPool[i].gameObject.SetActive(true);
-                _bombPool[i].Spawn(this.transform.position, _bombRadius);
+                _bombPool[i].Spawn(this.transform.position, _stats.BombRange);
                 _curBombCount++;
                 return;
             }
@@ -58,7 +66,7 @@ public class BombController : MonoBehaviour
         // TODO: Change Input to PlayerInput
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (_curBombCount >= _maxBombCount)
+            if (_curBombCount >= _stats.BombCount)
                 return;
 
             SpawnBomb();
