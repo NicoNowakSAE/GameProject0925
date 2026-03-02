@@ -31,6 +31,8 @@ public class CameraController : MonoBehaviour
         _cameraTransform = camera.GetComponent<Transform>();
 
         _targetRb = _targetTransform.gameObject.GetComponent<Rigidbody2D>();
+
+        _cameraTransform.position = _targetRb.position + (Vector2)_trackingOffset;
     }
 
     private void Update()

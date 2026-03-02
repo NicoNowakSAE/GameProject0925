@@ -13,6 +13,7 @@ public class GUIController : MonoBehaviour
     [SerializeField] private Canvas _settingsMenuGui;
     [SerializeField] private Canvas _levelDoneMenuGui;
     [SerializeField] private Canvas _levelWinMenuGui;
+    [SerializeField] private Canvas _levelLoseMenuGui;
 
     private Canvas _currentMenuGui = null;
 
@@ -23,6 +24,8 @@ public class GUIController : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        LevelController.Instance.OnGameLost.AddListener(OpenLoseMenu);
     }
 
     public void SetPauseGUIActive(bool value)
@@ -47,6 +50,11 @@ public class GUIController : MonoBehaviour
     {
         SceneController.Instance.LoadNextScene();
         LevelController.Instance.SetGameState(GameState.Running);
+    }
+
+    public void ButtonClick_RetryLevel()
+    {
+        SceneController.Instance.LoadScene(SceneController.Instance.CurrentScene.buildIndex);
     }
 
     private void ChangeMenu(Canvas targetCanvas)
@@ -87,7 +95,13 @@ public class GUIController : MonoBehaviour
         LevelController.Instance.SetGameState(GameState.InBetween);
         ChangeMenu(_levelWinMenuGui);
     }
-
+    
+    public void OpenLoseMenu()
+    {
+        Debug.Log("[GUI CONTROLLER] Open lose menu invoked -");
+        LevelController.Instance.SetGameState(GameState.InBetween);
+        ChangeMenu(_levelLoseMenuGui);
+    }
     public void OpenSettingsMenu()
     {
         Debug.Log("[GUI CONTROLLER] Open settings menu invoked -");

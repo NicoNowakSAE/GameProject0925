@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -51,6 +50,7 @@ public class Health : MonoBehaviour
 
     [SerializeField] private float _invincibleFrameDuration;
     private Timer _invincibleTimer;
+    private bool _hasAlreadyBeenAttacked = false;
 
     private void Awake()
     {
@@ -59,7 +59,7 @@ public class Health : MonoBehaviour
         _currentHealth = _baseHp;
     }
 
-    private void Start()
+    private void InitiateIFrameCountdown()
     {
         _invincibleTimer.StartTime();
     }
@@ -72,16 +72,32 @@ public class Health : MonoBehaviour
     /// </param>
     public void Reduce(float damageDealt)
     {
-        if (_invincibleTimer.TimeElapsed.TotalSeconds < _invincibleFrameDuration && _useInvincibleFrames)
+        if (_hasAlreadyBeenAttacked)
         {
-            Debug.Log($"[HEALTH] Can't reduce health because target is in invincible frame state (Time left: {_invincibleFrameDuration - _invincibleTimer.TimeElapsed.TotalSeconds}) -");
-            return;
+            if (_invincibleTimer.TimeElapsed.TotalSeconds < _invincibleFrameDuration && _useInvincibleFrames)
+            {
+                Debug.Log($"[HEALTH] Can't reduce health because target is in invincible frame state (Time left: {_invincibleFrameDuration - _invincibleTimer.TimeElapsed.TotalSeconds}) -");
+                return;
+            }
         }
-        
+        else
+        {
+            if (_useInvincibleFrames)
+            {
+                Debug.Log("[HEALTH] First attack detected, setting up IFrame countdown now... -");
+                _hasAlreadyBeenAttacked = true;
+                InitiateIFrameCountdown();
+            }
+        }
+
         float targetHp = _currentHealth - damageDealt;
 
-        if (targetHp < 0)
+        if (targetHp <= 0)
+        {
             targetHp = 0;
+            Die();
+        }
+
 
         _currentHealth = targetHp;
         Debug.Log($"[HEALTH] Reduced health of {gameObject.name} by {damageDealt} => Health now: {_currentHealth} -");
@@ -92,6 +108,7 @@ public class Health : MonoBehaviour
     public void SetAlive(bool value)
     {
         _isAlive = value;
+        Debug.Log($"[HEALTH] {gameObject.name} is alive: {value} -");
     }
     /// <summary>
     /// Adds a specified amount onto an entity's health.
@@ -115,7 +132,11 @@ public class Health : MonoBehaviour
     /// Resets health of an entity to their 
     /// default health value.
     /// </summary>
-    public void Reset() { _currentHealth = _baseHp; }
+    public void Reset()
+    {
+        _currentHealth = _baseHp;
+        Debug.Log($"[HEALTH] Health has been reset => Health now: {_currentHealth} -");
+    }
 
     /// <summary>
     /// Forces instant death of an entity.
@@ -129,23 +150,12 @@ public class Health : MonoBehaviour
             return;
         }
         _currentHealth = 0;
-        _isAlive = false;
+        SetAlive(false);
         Debug.Log($"[HEALTH] {gameObject.name} died -");
 
         if (_turnInactiveOnDeath)
             gameObject.SetActive(false);
-            
-        OnEntityDeath.Invoke();
-    }
 
-    private void Update()
-    {
-        if (_isAlive)
-        {
-            if (_currentHealth <= 0)
-            {
-                Die();
-            }
-        }
+        OnEntityDeath?.Invoke();
     }
 }

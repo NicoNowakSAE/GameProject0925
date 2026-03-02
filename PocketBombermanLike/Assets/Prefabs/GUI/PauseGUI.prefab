@@ -184,7 +184,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: efccc8e2a993e5e4bb16342d30c20c5d, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 968357ccda140a74e8c1af601b3af115, type: 2}
 --- !u!1 &2230848161554711279
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,8 +384,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
-        m_MethodName: LoadPreviousScene
+        m_TargetAssemblyTypeName: GUIController, Assembly-CSharp
+        m_MethodName: ButtonClick_BackToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -517,8 +517,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelController, Assembly-CSharp
-        m_MethodName: ToggleState
+        m_TargetAssemblyTypeName: GUIController, Assembly-CSharp
+        m_MethodName: ButtonClick_ResumeGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

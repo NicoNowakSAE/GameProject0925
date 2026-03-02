@@ -573,6 +573,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6265905919686729794, guid: 9476e124d5b26984491bef1638ed09a2, type: 3}
+      propertyPath: _levelTime.Minutes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265905919686729794, guid: 9476e124d5b26984491bef1638ed09a2, type: 3}
+      propertyPath: _levelTime.Seconds
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7011673931432550866, guid: 9476e124d5b26984491bef1638ed09a2, type: 3}
       propertyPath: m_ColliderPaths.Array.size
       value: 11

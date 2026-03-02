@@ -13,6 +13,10 @@ public class GUICurrentLevel : MonoBehaviour
 
     private void Update()
     {
-        _currentLevelLabel.text = _levelController.CurrentLevel.ToString();
+        if (_currentLevelLabel != null)
+        {
+            _currentLevelLabel.text = _levelController.CurrentLevel.ToString();
+        }
+
     }
 }

@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput), typeof(RigidbodyMovement), typeof(GroundCheck))]
+[RequireComponent(typeof(Health), typeof(Timer))]
 public class PlayerController : MonoBehaviour
 {
     private PlayerInput _playerInput;
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private GroundCheck _groundCheck;
     private float _groundedTimer;
-
+    private Health _health;
     private int _extraJumpsRemaining;
     private int _lastReceivedJumpsRemainingValue;
 
@@ -21,8 +22,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool _canMove = true;
     [SerializeField][Range(0, 0.5f)] private float _coyoteTime = 0.13f;
 
-
-
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
@@ -30,7 +29,7 @@ public class PlayerController : MonoBehaviour
         _groundCheck = GetComponent<GroundCheck>();
         _bombController = GetComponent<BombController>();
         _statsSystem = GetComponent<PlayerStatsSystem>();
-
+        _health = GetComponent<Health>();
 
         _statsSystem.Init();
         _rbMovement.Init(_statsSystem.GetStats);
@@ -39,19 +38,6 @@ public class PlayerController : MonoBehaviour
 
         _extraJumpsRemaining = _totalExtraJumpsAvailable;
         _lastReceivedJumpsRemainingValue = _extraJumpsRemaining;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // bool isGrounded = _groundCheck.Check();
-        // 
-        // if (isGrounded)
-        //     _extraJumpsRemaining = _totalExtraJumpsAvailable;
-        // if (_groundCheck.Check())
-        // {
-        //     _extraJumpsRemaining = _totalExtraJumpsAvailable;
-        //     _groundedTimer = _coyoteTime;
-        // }
     }
 
     private void FixedUpdate()

@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 2578609727483172016}
   - component: {fileID: 5589979665530422933}
   - component: {fileID: 9118686768282703726}
+  - component: {fileID: 4917066485679008043}
   - component: {fileID: 6412927536937718288}
   - component: {fileID: 400218158316868232}
-  - component: {fileID: 4917066485679008043}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -143,7 +143,7 @@ MonoBehaviour:
       m_Calls: []
   _turnInactiveOnDeath: 0
   _useInvincibleFrames: 1
-  _invincibleFrameDuration: 5
+  _invincibleFrameDuration: 3
 --- !u!114 &5589979665530422933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +172,18 @@ MonoBehaviour:
   _rideableLayers:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &4917066485679008043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297325544570057579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd24da2a609c5b40a0c33031ea5f506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &6412927536937718288
 Rigidbody2D:
   serializedVersion: 5
@@ -245,18 +257,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
---- !u!114 &4917066485679008043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8297325544570057579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd24da2a609c5b40a0c33031ea5f506, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4843254963921280168
 PrefabInstance:
   m_ObjectHideFlags: 0

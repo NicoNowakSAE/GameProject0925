@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using Unity.VisualScripting;
-using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Timer))]
+[RequireComponent(typeof(Countdown))]
 public class LevelController : MonoBehaviour
 {
     private int _enemyLayerMask;
@@ -17,6 +13,7 @@ public class LevelController : MonoBehaviour
     [Range(0.5f, 5.0f)]
     [SerializeField] private float _levelEndDistanceTreshold = 1.5f;
 
+    public UnityEvent OnGameLost;
     private GameObject _startAnchor;
     public Vector3 LevelStartPosition => _startAnchor.transform.position;
     private GameObject _endAnchor;
@@ -25,16 +22,16 @@ public class LevelController : MonoBehaviour
     private Health _playerHealth;
     public UnityEvent OnPlayerTouchEnd;
     private bool _isPlayerEndTouchSatisfied = false;
-    private Timer _timer;
-    public TimeSpan TimeElapsed => _timer.TimeElapsed;
+    private Countdown _countdown;
+    public TimeSpan LevelTimeLeft => _countdown.TimeLeft;
     public int EnemiesRemaining => EnemyCollection.EnemyList.Count;
     private int _heartsCount = 3;
     public int HeartsCount => _heartsCount;
     private string[] _activePowerups;
     public string[] ActivePowerups => _activePowerups;
-    [SerializeField] private int _currentLevel = 999;
+    [SerializeField] private int _currentLevel = 1;
     public int CurrentLevel => _currentLevel;
-    public float PlayerHealth => _playerHealth.CurrentHealth;
+    public Health PlayerHealth => _playerHealth;
 
     private GameState _currentGameState = GameState.Running;
     private PlayerInput _playerInput;
@@ -47,6 +44,8 @@ public class LevelController : MonoBehaviour
         _playerLayerMask = LayerMask.NameToLayer("Player");
         _enemyLayerMask = LayerMask.NameToLayer("Enemy");
         _playerInput = FindFirstObjectByType<PlayerInput>();
+        _countdown = GetComponent<Countdown>();
+        SceneController.Instance.OnSceneLoadFinished.AddListener(() => SetGameState(GameState.Running));
 
         if (Instance != null)
         {
@@ -57,6 +56,24 @@ public class LevelController : MonoBehaviour
         Instance = this;
     }
 
+    private void RemovePlayerHeart()
+    {
+        if (_heartsCount <= 0)
+        {
+            Debug.Log("[LEVEL CONTROLLER] Game lost! -");
+            OnGameLost?.Invoke();
+            return;
+        }
+
+        _heartsCount--;
+        Debug.Log($"[LEVEL CONTROLLER] Remvoed 1 player heart. Hearts remaining: {_heartsCount} -");
+    }
+
+    public void LevelLostFlow()
+    {
+        Debug.Log("[LEVEL CONTROLLER] Running level lost flow -");
+    }
+
     private int GetEnemyCount()
     {
         GameObject[] enemiesInScene = GetAllObjectsInScene().Where(e => e.layer == _enemyLayerMask).ToArray();
@@ -65,9 +82,10 @@ public class LevelController : MonoBehaviour
 
     private void SpawnPlayer()
     {
+        Debug.Log("[LEVEL CONTROLLER] Respawning player... -");
         _player.transform.position = _startAnchor.transform.position;
-        _playerHealth.Gain(_playerHealth.BaseHealth);
         _playerHealth.SetAlive(true);
+        _playerHealth.Reset();
     }
 
     private void FetchLevelAnchors()
@@ -126,13 +144,15 @@ public class LevelController : MonoBehaviour
 
     private void Start()
     {
-        _timer = GetComponent<Timer>();
-        _timer.StartTime();
+        _countdown.StartTime();
 
         FetchLevelAnchors();
         FetchPlayer();
 
-        _playerHealth.OnEntityDeath.AddListener(SpawnPlayer); // ?
+        _playerHealth.OnEntityDeath.AddListener(SpawnPlayer);
+        _playerHealth.OnEntityDeath.AddListener(RemovePlayerHeart);
+        _countdown.OnCountdownEnd.AddListener(LevelLostFlow);
+
         OnPlayerTouchEnd.AddListener(LevelDone); // CHANGE 06
 
         Debug.Log($"[LEVEL CONTROLLER] Found {EnemiesRemaining} enemies on Start() -");
@@ -144,12 +164,8 @@ public class LevelController : MonoBehaviour
     // CHANGE 07
     public void LevelDone()
     {
-        Debug.Log("LEVEL DONE!!");
-
-        // SceneController.Instance.LoadNextScene();
+        _currentLevel++;
         SetGameState(GameState.InBetween);
-        return;
-        
     }
 
     /// <summary>
@@ -199,10 +215,14 @@ public class LevelController : MonoBehaviour
 
     private void Update()
     {
-        if (EnemiesRemaining <= 0 && !_endAnchor.activeInHierarchy)
+        if (_endAnchor != null)
         {
-            _endAnchor.SetActive(true);
-            Debug.Log("[LEVEL CONTROLLER] All enemies killed; End anchor is now active -");
+            if (EnemiesRemaining <= 0 && !_endAnchor.activeInHierarchy)
+            {
+                _endAnchor.SetActive(true);
+                Debug.Log("[LEVEL CONTROLLER] All enemies killed; End anchor is now active -");
+            }
+
         }
 
         if (_player != null)
@@ -213,6 +233,11 @@ public class LevelController : MonoBehaviour
                 _isPlayerEndTouchSatisfied = true;
                 OnPlayerTouchEnd?.Invoke();
             }
+        }
+
+        if (_countdown.TimeLeft.TotalSeconds <= 0 && _currentGameState == GameState.Running)
+        {
+            OnGameLost?.Invoke();
         }
     }
 }

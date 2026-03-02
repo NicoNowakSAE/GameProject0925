@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8383934730388630439}
-  - component: {fileID: 6681197835001000470}
   - component: {fileID: 8392004407183223921}
+  - component: {fileID: 7623977812273085437}
   m_Layer: 0
   m_Name: LevelController
   m_TagString: Untagged
@@ -33,18 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6681197835001000470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3218409288684082556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd24da2a609c5b40a0c33031ea5f506, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8392004407183223921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +46,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelEndDistanceTreshold: 0.5
+  OnGameLost:
+    m_PersistentCalls:
+      m_Calls: []
   OnPlayerTouchEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  _currentLevel: 1
+--- !u!114 &7623977812273085437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3218409288684082556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7677cd2db114ead4e88632134253731f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelTime:
+    Minutes: 0
+    Seconds: 0
+  OnCountdownEnd:
     m_PersistentCalls:
       m_Calls: []

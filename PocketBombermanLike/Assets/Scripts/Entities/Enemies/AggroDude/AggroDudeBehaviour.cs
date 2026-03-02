@@ -89,7 +89,6 @@ public class AggroDudeBehaviour : MonoBehaviour, IBombHit
             if (distanceToPlayer >= _playerDistanceThreshold)
             {
                 _pointNav.AddPoint(_player.transform.position);
-                Debug.Log($"[AGGRO DUDE] Adding new point to point nav: {_player.transform.position} -");
             }
             yield return new WaitForFixedUpdate();
         }

@@ -49,7 +49,7 @@ public class SceneController : MonoBehaviour
     /// <summary>
     /// Static Instance reference to a SceneController Object
     /// </summary>
-    public static SceneController Instance { get => _instance; }
+    public static SceneController Instance => _instance;
 
     [SerializeField] private SceneAsset _guiContentScene;
 
