@@ -1,6 +1,4 @@
-using Mono.Cecil;
 using UnityEngine;
-using UnityEngine.Events;
 
 /// <summary>
 /// Provides environmental sensing for an entity.

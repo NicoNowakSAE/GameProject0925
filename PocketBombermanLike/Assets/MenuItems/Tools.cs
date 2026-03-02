@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using Unity.VisualScripting;
-using UnityEditor.EditorTools;
 using System.Linq;
 public class Tools : MonoBehaviour
 {
