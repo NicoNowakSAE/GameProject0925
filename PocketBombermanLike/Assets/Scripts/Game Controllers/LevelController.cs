@@ -27,7 +27,7 @@ public class LevelController : MonoBehaviour, ISaveLoad
     public int EnemiesRemaining => EnemyCollection.EnemyList.Count;
     private int _heartsCount = 3;
     public int HeartsCount => _heartsCount;
-    private int _currentLevel = 1;
+    private static int _currentLevel = 1;
     public int CurrentLevel => _currentLevel;
     public Health PlayerHealth => _playerHealth;
 

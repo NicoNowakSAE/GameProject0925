@@ -1,4 +1,7 @@
+using System.Collections;
+using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput), typeof(RigidbodyMovement), typeof(GroundCheck))]
@@ -41,7 +44,6 @@ public class PlayerController : MonoBehaviour
         _extraJumpsRemaining = _totalExtraJumpsAvailable;
         _lastReceivedJumpsRemainingValue = _extraJumpsRemaining;
     }
-
     private void FixedUpdate()
     {
         if (_groundCheck.Check())
@@ -83,7 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_playerInput.Jump.WasPressedThisFrame() && !_isJumpQueued)
             _isJumpQueued = true;
-
+        
         if (_playerInput.TogglePause.WasPressedThisFrame())
             LevelController.Instance.ToggleState();
 

@@ -1,4 +1,6 @@
 
+using System.Collections;
+using System.Transactions;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -50,6 +52,9 @@ public class Health : MonoBehaviour
     private Timer _invincibleTimer;
     private bool _hasAlreadyBeenAttacked = false;
 
+    public UnityEvent OnIFrameStart;
+    public UnityEvent OnIFrameEnd;
+
     private void Awake()
     {
         _invincibleTimer = GetComponent<Timer>();
@@ -62,6 +67,14 @@ public class Health : MonoBehaviour
         _invincibleTimer.StartTime();
     }
 
+    private bool IsInvincible()
+    {
+        if (!_useInvincibleFrames)
+            return false;
+
+        return _invincibleTimer.TimeElapsed.TotalSeconds < _invincibleFrameDuration;
+    }
+
     /// <summary>
     /// Removed a specified amount from an entity's health.
     /// </summary>
@@ -70,30 +83,26 @@ public class Health : MonoBehaviour
     /// </param>
     public void Reduce(float damageDealt)
     {
-        Debug.LogError("REDUCE CALLED");
-
-        if (_hasAlreadyBeenAttacked)
-        {
-            if (_invincibleTimer.TimeElapsed.TotalSeconds < _invincibleFrameDuration && _useInvincibleFrames)
-            {
-                Debug.Log($"[HEALTH] Can't reduce health because target is in invincible frame state (Time left: {_invincibleFrameDuration - _invincibleTimer.TimeElapsed.TotalSeconds}) -");
-                return;
-            }
-        }
-        else
-        {
-            if (_useInvincibleFrames)
-            {
-                Debug.Log("[HEALTH] First attack detected, setting up IFrame countdown now... -");
-                _hasAlreadyBeenAttacked = true;
-                InitiateIFrameCountdown();
-            }
-        }
-
         float targetHp = _currentHealth - damageDealt;
+
+        if (IsInvincible())
+        {
+            Debug.Log($"[HEALTH] Can't reduce health because target is in invincible frame state (Time left: {_invincibleFrameDuration - _invincibleTimer.TimeElapsed.TotalSeconds}) -");
+            OnIFrameStart?.Invoke();
+            return;
+        }
+
+        if (!_hasAlreadyBeenAttacked)
+        {
+            Debug.Log("[HEALTH] First attack detected, setting up IFrame countdown now... -");
+            _hasAlreadyBeenAttacked = true;
+            OnIFrameStart?.Invoke();
+            InitiateIFrameCountdown();
+        }
 
         if (targetHp <= 0)
         {
+            OnIFrameEnd.Invoke();
             Die();
             return;
         }
@@ -161,5 +170,14 @@ public class Health : MonoBehaviour
             gameObject.SetActive(false);
 
         OnEntityDeath?.Invoke();
+    }
+
+    private void Update()
+    {
+        if (!_useInvincibleFrames)
+            return;
+
+        if (_invincibleTimer.TimeElapsed.TotalSeconds >= _invincibleFrameDuration)
+            OnIFrameEnd?.Invoke();
     }
 }
