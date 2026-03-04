@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -11,7 +10,7 @@ using UnityEngine.SceneManagement;
 /// Central controller responsible for scene discovery and scene loading.
 /// Persists across scene changes.
 /// </summary>
-public class SceneController : MonoBehaviour
+public class SceneController : MonoBehaviour, ISaveLoad
 {
     /// <summary>
     /// Currently active scene.
@@ -42,7 +41,7 @@ public class SceneController : MonoBehaviour
     /// <summary>
     /// Singleton Instance of the SceneController class
     /// </summary>
-    
+
     // CHANGE 08
     private static SceneController _instance;
     /// <summary>
@@ -50,7 +49,7 @@ public class SceneController : MonoBehaviour
     /// </summary>
     public static SceneController Instance => _instance;
 
-    [SerializeField] private SceneAsset _guiContentScene;
+    [SerializeField] private string _guiContentSceneName;
 
     [SerializeField] private bool _loadGuiScene;
 
@@ -190,7 +189,7 @@ public class SceneController : MonoBehaviour
     /// </summary>
     public void LoadPreviousScene()
     {
-       int previousIndex = CurrentScene.buildIndex - 1;
+        int previousIndex = CurrentScene.buildIndex - 1;
 
         Debug.Log(
             $"[SCENE CONTROLLER] LoadPreviousScene invoked, " +
@@ -202,8 +201,7 @@ public class SceneController : MonoBehaviour
 
     private void LoadGUIContentScene()
     {
-        string sceneName = _guiContentScene.name;
-        LoadScene(sceneName, LoadSceneMode.Additive);
+        LoadScene(_guiContentSceneName, LoadSceneMode.Additive);
     }
 
     /// <summary>
@@ -218,7 +216,7 @@ public class SceneController : MonoBehaviour
         }
 
         _instance = this; // CHANGE 09
-        
+
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (_loadGuiScene)
@@ -237,6 +235,31 @@ public class SceneController : MonoBehaviour
         {
             OnSceneLoadFinished?.Invoke();
         }
-        
+
+    }
+
+    public void LoadSceneFromSaveData()
+    {
+        Debug.Log("[SCENE CONTROLLER] Fetching load data... -");
+
+        SaveLoadManager.Instance.Load();
+        SaveData data = SaveLoadSystem.Load();
+
+        if (data == null)
+        {
+            Debug.Log("[SCENE CONTROLLER] No valid load data found -");
+            return;
+        }
+
+        LoadScene(data.CurrentLevel);
+    }
+
+    public void SubscribeToSaveLoadManager() => SaveLoadManager.Instance.Subscribe(this);
+    public void UnsubscribeToSaveLoadManager() => SaveLoadManager.Instance.Unsubscribe(this);
+    public void SaveCallback(SaveData data) {}
+
+    public void LoadCallback(SaveData data)
+    {
+        LoadScene(data.CurrentLevel);
     }
 }

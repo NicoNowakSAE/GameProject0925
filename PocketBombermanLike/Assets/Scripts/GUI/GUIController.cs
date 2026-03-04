@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUIController : MonoBehaviour
 {
@@ -6,13 +8,26 @@ public class GUIController : MonoBehaviour
     public bool IsPauseMenuActive => _isPauseMenuActive;
     [SerializeField] private SceneController _sceneController;
 
-    [Header("Canvas References")]
+    [Header("GUI Canvas References")]
+    [Header("Ingame GUI")]
     [SerializeField] private Canvas _ingameGui;
+
+    [Header("Pause GUI")]
     [SerializeField] private Canvas _pauseMenuGui;
+
+    [Header("Main Menu GUI")]
     [SerializeField] private Canvas _mainMenuGui;
+
+    [Header("Settings Menu GUI")]
     [SerializeField] private Canvas _settingsMenuGui;
+
+    [Header("Level Done Menu GUI")]
     [SerializeField] private Canvas _levelDoneMenuGui;
+
+    [Header("Level Win Menu GUI")]
     [SerializeField] private Canvas _levelWinMenuGui;
+
+    [Header("Level Lose Menu GUI")]
     [SerializeField] private Canvas _levelLoseMenuGui;
 
     private Canvas _currentMenuGui = null;
@@ -33,6 +48,12 @@ public class GUIController : MonoBehaviour
         Debug.Log("[GUI MANAGER] SetPauseGUIActive => " + value);
         _pauseMenuGui.gameObject.SetActive(value);
         _isPauseMenuActive = value;
+    }
+
+    public void ButtonClick_ContinueGame()
+    {
+        SaveLoadManager.Instance.Load();
+        LevelController.Instance.SetGameState(GameState.Running);
     }
 
     public void ButtonClick_ResumeGame()
@@ -86,7 +107,8 @@ public class GUIController : MonoBehaviour
         Debug.Log("[GUI CONTROLLER] Start game flow invoked -");
         // CHANGE 01
         // _sceneController.LoadScene("HealthTest");
-        _sceneController.LoadNextScene();
+
+        SceneController.Instance.LoadNextScene();
     }
 
     public void OpenWinMenu()

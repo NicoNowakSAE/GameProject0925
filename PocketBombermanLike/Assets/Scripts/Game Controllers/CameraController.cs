@@ -1,5 +1,4 @@
-using Unity.Cinemachine;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -14,24 +13,28 @@ public class CameraController : MonoBehaviour
     [SerializeField][Range(0.0f, 9.0f)] private float _positionTrackingSmoothness;
     [SerializeField][Range(0.0f, 10.0f)] private float _horizontalDirectionOffset;
     [SerializeField][Range(0.0f, 9.0f)] private float _horizontalDirectionSmoothness;
-    [SerializeField] private bool _changePovBasedOnHeight;
+    [SerializeField] private bool _snapToTargetOnStart = true;
 
     private Transform _cameraTransform;
+    private Camera _camera;
     private float _maxPositionTrackingSmoothness = 10.0f;
     private float _maxHorizontalDirectionSmoothness = 10.0f;
     private float _linearVelocityThreshold = 0.5f;
 
     private void Awake()
     {
-        Camera camera = Camera.main;
+        _camera = Camera.main;
 
-        if (camera == null)
+        if (_camera == null)
             Debug.LogWarning("[CAMERA CONTROLLER] No main camera found -");
 
-        _cameraTransform = camera.GetComponent<Transform>();
+        _cameraTransform = _camera.GetComponent<Transform>();
 
         _targetRb = _targetTransform.gameObject.GetComponent<Rigidbody2D>();
+    }
 
+    public void SnapCameraToTarget()
+    {
         _cameraTransform.position = _targetRb.position + (Vector2)_trackingOffset;
     }
 
@@ -85,6 +88,13 @@ public class CameraController : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        if (_snapToTargetOnStart)
+        {
+            SnapCameraToTarget();
+        }
+    }
     public void SetCameraPosition(Vector3 position)
     {
         _cameraTransform.position = position;

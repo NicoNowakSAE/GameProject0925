@@ -50,4 +50,4 @@ MonoBehaviour:
   _positionTrackingSmoothness: 2
   _horizontalDirectionOffset: 4
   _horizontalDirectionSmoothness: 6
-  _changePovBasedOnHeight: 0
+  _snapToTargetOnStart: 1

@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private int _lastReceivedJumpsRemainingValue;
 
     private bool _isJumpQueued = false;
+
+    [Header("Movement Controls")]
     [SerializeField] private int _totalExtraJumpsAvailable = 1;
     [SerializeField] private bool _canJump = true;
     [SerializeField] private bool _canMove = true;

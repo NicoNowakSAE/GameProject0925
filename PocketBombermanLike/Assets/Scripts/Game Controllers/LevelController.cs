@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Countdown))]
-public class LevelController : MonoBehaviour
+public class LevelController : MonoBehaviour, ISaveLoad
 {
     private int _enemyLayerMask;
     private int _playerLayerMask;
@@ -27,9 +27,7 @@ public class LevelController : MonoBehaviour
     public int EnemiesRemaining => EnemyCollection.EnemyList.Count;
     private int _heartsCount = 3;
     public int HeartsCount => _heartsCount;
-    private string[] _activePowerups;
-    public string[] ActivePowerups => _activePowerups;
-    [SerializeField] private int _currentLevel = 1;
+    private int _currentLevel = 1;
     public int CurrentLevel => _currentLevel;
     public Health PlayerHealth => _playerHealth;
 
@@ -72,12 +70,6 @@ public class LevelController : MonoBehaviour
     public void LevelLostFlow()
     {
         Debug.Log("[LEVEL CONTROLLER] Running level lost flow -");
-    }
-
-    private int GetEnemyCount()
-    {
-        GameObject[] enemiesInScene = GetAllObjectsInScene().Where(e => e.layer == _enemyLayerMask).ToArray();
-        return enemiesInScene.Count();
     }
 
     private void SpawnPlayer()
@@ -159,12 +151,23 @@ public class LevelController : MonoBehaviour
         Debug.Log($"[LEVEL CONTROLLER] Found end anchor {_endAnchor != null} ({_endAnchor.transform.position.ToString()} -");
         Debug.Log($"[LEVEL CONTROLLER] Found start anchor {_startAnchor != null} ({_startAnchor.transform.position.ToString()} -");
         Debug.Log($"[LEVEL CONTROLLER] Found player: {_player != null}");
+
+        if (_startAnchor != null && _player != null)
+        {
+            Debug.Log($"[LEVEL CONTROLLER] Attempting to spawn player... ");
+            SpawnPlayer();
+        }
+
+
     }
 
     // CHANGE 07
     public void LevelDone()
     {
-        _currentLevel++;
+        print("[LEVEL CONTROLLER] Running level done flow... -");
+        SetLevelIndex(_currentLevel + 1);
+        SaveLoadManager.Instance.Save();
+        GUIController.Instance?.OpenLevelDoneMenu();
         SetGameState(GameState.InBetween);
     }
 
@@ -186,6 +189,12 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    public void SetLevelIndex(int idx)
+    {
+        _currentLevel = idx;
+        Debug.Log($"[LEVEL CONTROLLER] Setting level index to: {idx} -");
+    }
+
     public void SetGameState(GameState state)
     {
         switch (state)
@@ -200,7 +209,6 @@ public class LevelController : MonoBehaviour
                 break;
             case GameState.InBetween:
                 Time.timeScale = 0;
-                GUIController.Instance?.OpenLevelDoneMenu();
                 break;
             case GameState.None:
                 Time.timeScale = 1;
@@ -239,5 +247,20 @@ public class LevelController : MonoBehaviour
         {
             OnGameLost?.Invoke();
         }
+    }
+
+    public void SubscribeToSaveLoadManager() => SaveLoadManager.Instance.Subscribe(this);
+    public void UnsubscribeToSaveLoadManager() => SaveLoadManager.Instance.Unsubscribe(this);
+    private void OnEnable() => SubscribeToSaveLoadManager();
+    private void OnDisable() => UnsubscribeToSaveLoadManager();
+
+    public void LoadCallback(SaveData data)
+    {
+        _currentLevel = data.CurrentLevel;
+    }
+
+    public void SaveCallback(SaveData data)
+    {
+        data.CurrentLevel = _currentLevel;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Timer))]
 public class Health : MonoBehaviour
 {
-    [SerializeField] private float _currentHealth;
+    private float _currentHealth;
 
     /// <summary>
     /// The current health value of an entity.
@@ -44,8 +44,6 @@ public class Health : MonoBehaviour
 
     [SerializeField] private bool _turnInactiveOnDeath = false;
 
-
-
     [SerializeField] private bool _useInvincibleFrames;
 
     [SerializeField] private float _invincibleFrameDuration;
@@ -72,6 +70,8 @@ public class Health : MonoBehaviour
     /// </param>
     public void Reduce(float damageDealt)
     {
+        Debug.LogError("REDUCE CALLED");
+
         if (_hasAlreadyBeenAttacked)
         {
             if (_invincibleTimer.TimeElapsed.TotalSeconds < _invincibleFrameDuration && _useInvincibleFrames)
@@ -94,10 +94,9 @@ public class Health : MonoBehaviour
 
         if (targetHp <= 0)
         {
-            targetHp = 0;
             Die();
+            return;
         }
-
 
         _currentHealth = targetHp;
         Debug.Log($"[HEALTH] Reduced health of {gameObject.name} by {damageDealt} => Health now: {_currentHealth} -");
@@ -110,6 +109,7 @@ public class Health : MonoBehaviour
         _isAlive = value;
         Debug.Log($"[HEALTH] {gameObject.name} is alive: {value} -");
     }
+
     /// <summary>
     /// Adds a specified amount onto an entity's health.
     /// </summary>
@@ -130,11 +130,15 @@ public class Health : MonoBehaviour
 
     /// <summary>
     /// Resets health of an entity to their 
-    /// default health value.
+    /// default health value and revives them.
     /// </summary>
     public void Reset()
     {
         _currentHealth = _baseHp;
+        _hasAlreadyBeenAttacked = false;
+        _invincibleTimer.ResetTime();
+        _invincibleTimer.StartTime();
+        SetAlive(true);
         Debug.Log($"[HEALTH] Health has been reset => Health now: {_currentHealth} -");
     }
 

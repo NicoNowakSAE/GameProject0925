@@ -25,7 +25,7 @@ public static class SaveLoadSystem
 
         if (File.Exists(path) == false)
         {
-            Debug.LogWarning("File doesn't exist! " + path);
+            Debug.LogWarning("[SAVE LOAD SYSTEM] File doesn't exist! " + path + " -");
             return null;
         }
 
