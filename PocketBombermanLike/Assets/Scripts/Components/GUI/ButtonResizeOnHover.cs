@@ -20,8 +20,8 @@ public class ButtonResizeOnHover : MonoBehaviour, IPointerEnterHandler, IPointer
     }
 
     private void ResetSize() => _button.transform.localScale = _baseSize;
-
     private void OnEnable() => ResetSize();
+    
     private IEnumerator ChangeSize(SizeChangeMode mode)
     {
         _isCoroutineActive = true;

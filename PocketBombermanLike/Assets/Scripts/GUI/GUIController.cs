@@ -107,7 +107,6 @@ public class GUIController : MonoBehaviour
         Debug.Log("[GUI CONTROLLER] Start game flow invoked -");
         // CHANGE 01
         // _sceneController.LoadScene("HealthTest");
-
         SceneController.Instance.LoadNextScene();
     }
 

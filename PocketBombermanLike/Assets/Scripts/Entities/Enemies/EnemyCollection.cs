@@ -15,7 +15,7 @@ public class EnemyCollection : MonoBehaviour
 
     public static void Subscribe(GameObject gameObject)
     {
-        _enemyList.RemoveAll(obj => obj == null);
+        Cleanup();
 
         if (_enemyList.Contains(gameObject))
         {
@@ -35,5 +35,9 @@ public class EnemyCollection : MonoBehaviour
         Debug.Log($"[ENEMY COLLECTION] Removed 1 Enemy reference: (GameObject: {gameObject.name}) -");
     }
 
-
+    public static void Cleanup()
+    {
+        int leftoversRemoved = _enemyList.RemoveAll(obj => obj == null);
+        Debug.Log($"[ENEMY COLLECTION] Removed {leftoversRemoved} leftover enemies -");
+    }
 }

@@ -43,6 +43,7 @@ public class LevelController : MonoBehaviour, ISaveLoad
         _enemyLayerMask = LayerMask.NameToLayer("Enemy");
         _playerInput = FindFirstObjectByType<PlayerInput>();
         _countdown = GetComponent<Countdown>();
+
         SceneController.Instance.OnSceneLoadFinished.AddListener(() => SetGameState(GameState.Running));
 
         if (Instance != null)
@@ -78,6 +79,11 @@ public class LevelController : MonoBehaviour, ISaveLoad
         _player.transform.position = _startAnchor.transform.position;
         _playerHealth.SetAlive(true);
         _playerHealth.Reset();
+    }
+
+    public void ResetStats()
+    {
+        _currentLevel = 1;
     }
 
     private void FetchLevelAnchors()
@@ -145,6 +151,9 @@ public class LevelController : MonoBehaviour, ISaveLoad
         _playerHealth.OnEntityDeath.AddListener(RemovePlayerHeart);
         _countdown.OnCountdownEnd.AddListener(LevelLostFlow);
 
+        EnemyCollection.Cleanup();
+        HealthCollection.Cleanup();
+        
         OnPlayerTouchEnd.AddListener(LevelDone); // CHANGE 06
 
         Debug.Log($"[LEVEL CONTROLLER] Found {EnemiesRemaining} enemies on Start() -");
