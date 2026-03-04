@@ -30,6 +30,7 @@ public class AudioManager : MonoBehaviour
             if (_sounds[i].name == sound)
             {
                 Play(_sounds[i]);
+                return;
             }
         }
     }
@@ -41,6 +42,7 @@ public class AudioManager : MonoBehaviour
             if (_sounds[i] == sfx)
             {
                 Play(_sounds[i]);
+                return;
             }
         }
     }
@@ -55,6 +57,7 @@ public class AudioManager : MonoBehaviour
                 _channels[i].volume = sfx.Volume;
                 _channels[i].pitch = sfx.Pitch;
                 _channels[i].Play();
+                return;
             }
         }
     }

@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseGUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2596169096698317124, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5344743929428094227, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -222,13 +226,135 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2414929800061768008, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 317200574}
+    - targetCorrespondingSourceObject: {fileID: 2414929800061768008, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 317200573}
+    - targetCorrespondingSourceObject: {fileID: 2386584916898189418, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 317200572}
+    - targetCorrespondingSourceObject: {fileID: 2386584916898189418, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 317200571}
   m_SourcePrefab: {fileID: 100100000, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
 --- !u!223 &317200568 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 1882159606657968862, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
   m_PrefabInstance: {fileID: 317200567}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &317200569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2386584916898189418, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
+  m_PrefabInstance: {fileID: 317200567}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &317200570 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2414929800061768008, guid: 83b89b1d31b0e9549bc43bb3b7af3b90, type: 3}
+  m_PrefabInstance: {fileID: 317200567}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &317200571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317200569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee13031a860ec9d4aa829068954d3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &317200572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317200569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564238fe3ea98cc4e994e2d254a7af56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onHoverSizeMultiplier: 1.075
+  _sizeChangeDuration: 0.75
+  _curveBehaviour:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &317200573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317200570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee13031a860ec9d4aa829068954d3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &317200574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317200570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564238fe3ea98cc4e994e2d254a7af56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onHoverSizeMultiplier: 1.075
+  _sizeChangeDuration: 0.75
+  _curveBehaviour:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &348063168
 GameObject:
   m_ObjectHideFlags: 0

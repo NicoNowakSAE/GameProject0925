@@ -131,6 +131,8 @@ GameObject:
   - component: {fileID: 105359430}
   - component: {fileID: 105359429}
   - component: {fileID: 105359428}
+  - component: {fileID: 105359431}
+  - component: {fileID: 105359432}
   m_Layer: 5
   m_Name: BackToMainMenuButton
   m_TagString: Untagged
@@ -252,6 +254,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105359426}
   m_CullTransparentMesh: 1
+--- !u!114 &105359431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105359426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564238fe3ea98cc4e994e2d254a7af56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onHoverSizeMultiplier: 1.075
+  _sizeChangeDuration: 0.75
+  _curveBehaviour:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &105359432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105359426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee13031a860ec9d4aa829068954d3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &132186152
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,6 +1000,8 @@ GameObject:
   - component: {fileID: 764403695}
   - component: {fileID: 764403694}
   - component: {fileID: 764403693}
+  - component: {fileID: 764403697}
+  - component: {fileID: 764403696}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -1069,6 +1123,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 764403691}
   m_CullTransparentMesh: 1
+--- !u!114 &764403696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764403691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee13031a860ec9d4aa829068954d3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &764403697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764403691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564238fe3ea98cc4e994e2d254a7af56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onHoverSizeMultiplier: 1.075
+  _sizeChangeDuration: 0.75
+  _curveBehaviour:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!224 &769872943 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8952165114650200738, guid: 94c28d7ce9535524a800a2637fdb2fd4, type: 3}
@@ -1421,6 +1525,8 @@ GameObject:
   - component: {fileID: 1121945144}
   - component: {fileID: 1121945143}
   - component: {fileID: 1121945142}
+  - component: {fileID: 1121945146}
+  - component: {fileID: 1121945145}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -1542,6 +1648,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1121945140}
   m_CullTransparentMesh: 1
+--- !u!114 &1121945145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121945140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee13031a860ec9d4aa829068954d3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1121945146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121945140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564238fe3ea98cc4e994e2d254a7af56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onHoverSizeMultiplier: 1.075
+  _sizeChangeDuration: 0.75
+  _curveBehaviour:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1169407271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2696,7 +2852,9 @@ GameObject:
   - component: {fileID: 1748093675}
   - component: {fileID: 1748093678}
   - component: {fileID: 1748093677}
+  - component: {fileID: 1748093679}
   - component: {fileID: 1748093676}
+  - component: {fileID: 1748093680}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -2818,6 +2976,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748093674}
   m_CullTransparentMesh: 1
+--- !u!114 &1748093679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748093674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee13031a860ec9d4aa829068954d3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1748093680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748093674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564238fe3ea98cc4e994e2d254a7af56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onHoverSizeMultiplier: 1.075
+  _sizeChangeDuration: 0.75
+  _curveBehaviour:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1795385281
 GameObject:
   m_ObjectHideFlags: 0
@@ -3361,8 +3569,10 @@ GameObject:
   - component: {fileID: 1952829083}
   - component: {fileID: 1952829082}
   - component: {fileID: 1952829081}
+  - component: {fileID: 1952829087}
   - component: {fileID: 1952829084}
   - component: {fileID: 1952829085}
+  - component: {fileID: 1952829086}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -3510,6 +3720,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disabledButtonLabelAlpha: 50
   _isActive: 1
+--- !u!114 &1952829086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952829079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee13031a860ec9d4aa829068954d3f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1952829087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952829079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564238fe3ea98cc4e994e2d254a7af56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onHoverSizeMultiplier: 1.075
+  _sizeChangeDuration: 0.75
+  _curveBehaviour:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2038728236
 GameObject:
   m_ObjectHideFlags: 0
