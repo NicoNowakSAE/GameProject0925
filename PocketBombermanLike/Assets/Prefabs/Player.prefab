@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 6412927536937718288}
   - component: {fileID: 400218158316868232}
   - component: {fileID: 6137088078518269718}
+  - component: {fileID: 5140610276005360842}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -278,6 +279,19 @@ MonoBehaviour:
   _flashTexture: {fileID: 2100000, guid: 3125dee727699154db99b08bb4ad4173, type: 2}
   _health: {fileID: 2578609727483172016}
   _parentOfMeshRenderers: {fileID: 3465343634099111329}
+--- !u!114 &5140610276005360842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297325544570057579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b2019e47118794b8e46274f44d566c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 7549728102673406664}
 --- !u!1001 &4843254963921280168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -363,5 +377,10 @@ Transform:
 --- !u!1 &3465343634099111329 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 82a2914d8f86c62488456950c8330e38, type: 3}
+  m_PrefabInstance: {fileID: 4843254963921280168}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7549728102673406664 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 82a2914d8f86c62488456950c8330e38, type: 3}
   m_PrefabInstance: {fileID: 4843254963921280168}
   m_PrefabAsset: {fileID: 0}

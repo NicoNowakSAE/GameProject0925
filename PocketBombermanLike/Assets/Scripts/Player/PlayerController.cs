@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private RigidbodyMovement _rbMovement;
     private PlayerStatsSystem _statsSystem;
     private BombController _bombController;
+    private PlayerAnimationController _animController;
 
     private GroundCheck _groundCheck;
     private float _groundedTimer;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
         _bombController = GetComponent<BombController>();
         _statsSystem = GetComponent<PlayerStatsSystem>();
         _health = GetComponent<Health>();
+        _animController = GetComponent<PlayerAnimationController>();
 
         _statsSystem.Init();
         _rbMovement.Init(_statsSystem.GetStats);
@@ -98,5 +100,8 @@ public class PlayerController : MonoBehaviour
 
         _groundedTimer -= Time.deltaTime;
 
+
+        _animController.AnimationStep(_playerInput);
     }
+
 }
