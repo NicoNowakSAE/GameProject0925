@@ -19,6 +19,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] private LayerMask _bombHitLayerMask;
 
     private int _bombRadius;
+    private float _radius => _bombRadius * 2 + 1 - 0.1f;
 
     public void Init(Action<Bomb> callback)
     {
@@ -43,7 +44,7 @@ public class Bomb : MonoBehaviour
     {
         Instantiate(_explosionPrefab, this.transform.position, Quaternion.identity);
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(_bombRadius, 1), 0, _bombHitLayerMask);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(_radius, 0.9f), 0, _bombHitLayerMask);
 
         for (int i = 0; i < hits.Length; i++)
         {
@@ -52,7 +53,7 @@ public class Bomb : MonoBehaviour
             h.Hit(1);
         }
 
-        hits = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(_bombRadius, 1), 90, _bombHitLayerMask);
+        hits = Physics2D.OverlapBoxAll(this.transform.position, new Vector2(_radius, 0.9f), 90, _bombHitLayerMask);
 
         for (int i = 0; i < hits.Length; i++)
         {
@@ -78,8 +79,8 @@ public class Bomb : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(this.transform.position, new Vector3(_bombRadius, 1, .5f));
-        Gizmos.DrawWireCube(this.transform.position, new Vector3(1, _bombRadius, .5f));
+        Gizmos.DrawWireCube(this.transform.position, new Vector3(_radius, 0.9f, .5f));
+        Gizmos.DrawWireCube(this.transform.position, new Vector3(0.9f, _radius, .5f));
     }
 }
 

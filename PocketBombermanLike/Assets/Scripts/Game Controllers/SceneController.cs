@@ -53,6 +53,13 @@ public class SceneController : MonoBehaviour, ISaveLoad
 
     [SerializeField] private bool _loadGuiScene;
 
+    [SerializeField]
+    private int _currentLevel;
+    public int CurrentLevel { get => _currentLevel; }
+
+    private int _savedLevel;
+    public int SavedLevel { get => _savedLevel; set => _savedLevel = value; }
+
     /// <summary>
     /// Collects all scene paths from the Build Settings by build index.
     /// </summary>
@@ -82,6 +89,7 @@ public class SceneController : MonoBehaviour, ISaveLoad
         Debug.Log($"[SCENE CONTROLLER] Scene collection finished, total={sceneList.Count} -");
         return sceneList;
     }
+
 
     /// <summary>
     /// Loads a scene by build index.
@@ -215,7 +223,8 @@ public class SceneController : MonoBehaviour, ISaveLoad
             return;
         }
 
-        _instance = this; // CHANGE 09
+        _instance = this;
+        SubscribeToSaveLoadManager();
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -240,26 +249,31 @@ public class SceneController : MonoBehaviour, ISaveLoad
 
     public void LoadSceneFromSaveData()
     {
-        Debug.Log("[SCENE CONTROLLER] Fetching load data... -");
-
-        SaveLoadManager.Instance.Load();
-        SaveData data = SaveLoadSystem.Load();
-
-        if (data == null)
-        {
-            Debug.Log("[SCENE CONTROLLER] No valid load data found -");
-            return;
-        }
-
-        LoadScene(data.CurrentLevel);
+        LoadScene(_savedLevel);
     }
 
-    public void SubscribeToSaveLoadManager() => SaveLoadManager.Instance.Subscribe(this);
-    public void UnsubscribeToSaveLoadManager() => SaveLoadManager.Instance.Unsubscribe(this);
-    public void SaveCallback(SaveData data) {}
+    public void SubscribeToSaveLoadManager() => SaveLoadManager.Instance?.Subscribe(this);
+    public void UnsubscribeToSaveLoadManager() => SaveLoadManager.Instance?.Unsubscribe(this);
+
+    void OnDestroy()
+    {
+        UnsubscribeToSaveLoadManager();
+    }
+    public void SaveCallback(SaveData data)
+    {
+        data.CurrentLevel = _currentLevel + 1; 
+    }
 
     public void LoadCallback(SaveData data)
     {
-        LoadScene(data.CurrentLevel);
+        if (data == null)
+        {
+            Debug.Log("[STARTUP MANAGER] No SaveData found.");
+            return;
+        }
+
+        _savedLevel = data.CurrentLevel;
     }
+
+
 }

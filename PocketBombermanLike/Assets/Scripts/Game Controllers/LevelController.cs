@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Countdown))]
-public class LevelController : MonoBehaviour, ISaveLoad
+public class LevelController : MonoBehaviour
 {
     private int _enemyLayerMask;
     private int _playerLayerMask;
@@ -27,8 +27,7 @@ public class LevelController : MonoBehaviour, ISaveLoad
     public int EnemiesRemaining => EnemyCollection.EnemyList.Count;
     private int _heartsCount = 3;
     public int HeartsCount => _heartsCount;
-    private static int _currentLevel = 1;
-    public int CurrentLevel => _currentLevel;
+
     public Health PlayerHealth => _playerHealth;
 
     private GameState _currentGameState = GameState.Running;
@@ -39,12 +38,6 @@ public class LevelController : MonoBehaviour, ISaveLoad
 
     private void Awake()
     {
-        _playerLayerMask = LayerMask.NameToLayer("Player");
-        _enemyLayerMask = LayerMask.NameToLayer("Enemy");
-        _playerInput = FindFirstObjectByType<PlayerInput>();
-        _countdown = GetComponent<Countdown>();
-
-        SceneController.Instance.OnSceneLoadFinished.AddListener(() => SetGameState(GameState.Running));
 
         if (Instance != null)
         {
@@ -53,6 +46,15 @@ public class LevelController : MonoBehaviour, ISaveLoad
         }
 
         Instance = this;
+
+        _playerLayerMask = LayerMask.NameToLayer("Player");
+        _enemyLayerMask = LayerMask.NameToLayer("Enemy");
+        _playerInput = FindFirstObjectByType<PlayerInput>();
+        _countdown = GetComponent<Countdown>();
+
+        SceneController.Instance.OnSceneLoadFinished.AddListener(() => SetGameState(GameState.Running));
+        FetchPlayer();
+
     }
 
     private void RemovePlayerHeart()
@@ -79,11 +81,6 @@ public class LevelController : MonoBehaviour, ISaveLoad
         _player.transform.position = _startAnchor.transform.position;
         _playerHealth.SetAlive(true);
         _playerHealth.Reset();
-    }
-
-    public void ResetStats()
-    {
-        _currentLevel = 1;
     }
 
     private void FetchLevelAnchors()
@@ -145,7 +142,6 @@ public class LevelController : MonoBehaviour, ISaveLoad
         _countdown.StartTime();
 
         FetchLevelAnchors();
-        FetchPlayer();
 
         _playerHealth.OnEntityDeath.AddListener(SpawnPlayer);
         _playerHealth.OnEntityDeath.AddListener(RemovePlayerHeart);
@@ -174,8 +170,8 @@ public class LevelController : MonoBehaviour, ISaveLoad
     public void LevelDone()
     {
         print("[LEVEL CONTROLLER] Running level done flow... -");
-        SetLevelIndex(_currentLevel + 1);
-        SaveLoadManager.Instance.Save();
+
+        SaveLoadManager.Instance?.Save();
         GUIController.Instance?.OpenLevelDoneMenu();
         SetGameState(GameState.InBetween);
     }
@@ -198,11 +194,11 @@ public class LevelController : MonoBehaviour, ISaveLoad
         }
     }
 
-    public void SetLevelIndex(int idx)
-    {
-        _currentLevel = idx;
-        Debug.Log($"[LEVEL CONTROLLER] Setting level index to: {idx} -");
-    }
+    // public void SetLevelIndex(int idx)
+    // {
+    //     SceneController._currentLevel = idx;
+    //     Debug.Log($"[LEVEL CONTROLLER] Setting level index to: {idx} -");
+    // }
 
     public void SetGameState(GameState state)
     {
@@ -258,18 +254,5 @@ public class LevelController : MonoBehaviour, ISaveLoad
         }
     }
 
-    public void SubscribeToSaveLoadManager() => SaveLoadManager.Instance.Subscribe(this);
-    public void UnsubscribeToSaveLoadManager() => SaveLoadManager.Instance.Unsubscribe(this);
-    private void OnEnable() => SubscribeToSaveLoadManager();
-    private void OnDisable() => UnsubscribeToSaveLoadManager();
-
-    public void LoadCallback(SaveData data)
-    {
-        _currentLevel = data.CurrentLevel;
-    }
-
-    public void SaveCallback(SaveData data)
-    {
-        data.CurrentLevel = _currentLevel;
-    }
+    
 }

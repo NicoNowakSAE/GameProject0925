@@ -40,13 +40,13 @@ public class GUIController : MonoBehaviour
     {
         _instance = this;
 
-        LevelController.Instance.OnGameLost.AddListener(OpenLoseMenu);
+        LevelController.Instance?.OnGameLost.AddListener(OpenLoseMenu);
     }
 
     public void SetPauseGUIActive(bool value)
     {
         Debug.Log("[GUI MANAGER] SetPauseGUIActive => " + value);
-        _pauseMenuGui.gameObject.SetActive(value);
+        _pauseMenuGui?.gameObject.SetActive(value);
         _isPauseMenuActive = value;
     }
 
@@ -105,8 +105,6 @@ public class GUIController : MonoBehaviour
     public void StartGameFlow()
     {
         Debug.Log("[GUI CONTROLLER] Start game flow invoked -");
-        // CHANGE 01
-        // _sceneController.LoadScene("HealthTest");
         SceneController.Instance.LoadNextScene();
     }
 

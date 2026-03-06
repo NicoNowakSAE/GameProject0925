@@ -15,7 +15,7 @@ public class GUICurrentLevel : MonoBehaviour
     {
         if (_currentLevelLabel != null)
         {
-            _currentLevelLabel.text = _levelController.CurrentLevel.ToString();
+            _currentLevelLabel.text = SceneController.Instance.CurrentLevel.ToString();
         }
 
     }

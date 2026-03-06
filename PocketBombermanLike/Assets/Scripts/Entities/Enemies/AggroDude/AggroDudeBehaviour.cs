@@ -37,10 +37,16 @@ public class AggroDudeBehaviour : MonoBehaviour, IBombHit
         _health = GetComponent<Health>();
 
         EnemyCollection.Subscribe(gameObject);
+        
 
         _health.OnEntityDeath.AddListener(() => {EnemyCollection.Unsubscribe(gameObject);});
         
         _pointNav.SetNavSpeed(_movementStateSpeeds.First(pair => pair.State == ChasingEnemyState.Chasing).Speed);
+    }
+
+    private void Start()
+    {
+        _player = LevelController.Instance.PlayerHealth.gameObject;
     }
 
     /// <summary>
@@ -81,6 +87,9 @@ public class AggroDudeBehaviour : MonoBehaviour, IBombHit
     /// </summary>
     private IEnumerator TrackPlayerNavPoints()
     {
+        if (_player == null)
+            yield return null;
+
         _pointNav.SetActive(true);
 
         while (_currentState == ChasingEnemyState.Chasing)
@@ -107,7 +116,7 @@ public class AggroDudeBehaviour : MonoBehaviour, IBombHit
             case ChasingEnemyState.Patrolling:
 
                 PerformPatrollingMovement();
-
+                if (_player == null) break;
                 bool isAnyTargetInSight = _lineOfSight.CheckTargets(
                     transform.TransformDirection(
                         transform.TransformDirection(_player.transform.position - _transform.position).normalized * _lineOfSight.LineOfSightLength).normalized,
