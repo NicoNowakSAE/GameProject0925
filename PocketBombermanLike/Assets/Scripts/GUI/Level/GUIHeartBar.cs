@@ -30,20 +30,22 @@ public class GUIHeartBar : MonoBehaviour
         if (_spriteObjects.Count <= 0)
             return;
 
-        if (LevelController.Instance.HeartsCount >= 0)
+        if (LevelController.Instance.HeartsCount < 0)
         {
-            for (int i = 0; i < _maxHearts; i++)
+            return;
+        }
+
+        for (int i = 0; i < _maxHearts; i++)
+        {
+            if (i < LevelController.Instance.HeartsCount)
             {
-                if (i < LevelController.Instance.HeartsCount)
-                {
-                    _spriteObjects[i].sprite = _baseHeart;
-                    Debug.Log($"[GUI HEART BAR] Setting sprite: {_spriteObjects[i].gameObject.name} to Base Heart -");
-                }
-                else
-                {
-                    _spriteObjects[i].sprite = _disabledHeart;
-                    Debug.Log($"[GUI HEART BAR] Setting sprite: {_spriteObjects[i].gameObject.name} to Disabled Heart -");
-                }
+                _spriteObjects[i].sprite = _baseHeart;
+                Debug.Log($"[GUI HEART BAR] Setting sprite: {_spriteObjects[i].gameObject.name} to Base Heart -");
+            }
+            else
+            {
+                _spriteObjects[i].sprite = _disabledHeart;
+                Debug.Log($"[GUI HEART BAR] Setting sprite: {_spriteObjects[i].gameObject.name} to Disabled Heart -");
             }
         }
 
