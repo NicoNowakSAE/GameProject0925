@@ -505,6 +505,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6265905919686729794, guid: 9476e124d5b26984491bef1638ed09a2, type: 3}
+      propertyPath: _time.Minutes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6265905919686729794, guid: 9476e124d5b26984491bef1638ed09a2, type: 3}
       propertyPath: _levelTime.Minutes
       value: 1
       objectReference: {fileID: 0}

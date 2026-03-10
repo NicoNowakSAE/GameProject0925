@@ -19,6 +19,7 @@ public class LevelController : MonoBehaviour
     private GameObject _endAnchor;
     public Vector3 LevelEndPosition => _endAnchor.transform.position;
     private GameObject _player;
+    public GameObject Player => _player;
     private Health _playerHealth;
     public UnityEvent OnPlayerTouchEnd;
     private bool _isPlayerEndTouchSatisfied = false;
@@ -29,6 +30,7 @@ public class LevelController : MonoBehaviour
     public int HeartsCount => _heartsCount;
 
     public Health PlayerHealth => _playerHealth;
+
 
     private GameState _currentGameState = GameState.Running;
     private PlayerInput _playerInput;
@@ -67,7 +69,7 @@ public class LevelController : MonoBehaviour
         }
 
         _heartsCount--;
-        Debug.Log($"[LEVEL CONTROLLER] Remvoed 1 player heart. Hearts remaining: {_heartsCount} -");
+        Debug.Log($"[LEVEL CONTROLLER] Removed 1 player heart. Hearts remaining: {_heartsCount} -");
     }
 
     public void LevelLostFlow()
@@ -144,7 +146,7 @@ public class LevelController : MonoBehaviour
         FetchLevelAnchors();
 
         _playerHealth.OnEntityDeath.AddListener(SpawnPlayer);
-        _playerHealth.OnEntityDeath.AddListener(RemovePlayerHeart);
+        _playerHealth.OnEntityTakeDamage.AddListener(RemovePlayerHeart);
         _countdown.OnCountdownEnd.AddListener(LevelLostFlow);
 
         EnemyCollection.Cleanup();

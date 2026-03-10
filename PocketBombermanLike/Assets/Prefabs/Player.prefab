@@ -137,9 +137,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779a8605c8d94b849bab1bd59975a1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseHp: 3
+  _baseHp: 4
   _canHealMoreThanBase: 0
   OnEntityDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEntityTakeDamage:
     m_PersistentCalls:
       m_Calls: []
   _turnInactiveOnDeath: 0

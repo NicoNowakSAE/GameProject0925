@@ -20,7 +20,7 @@ public class GUIHeartBar : MonoBehaviour
     private void Start()
     {
         if (LevelController.Instance.PlayerHealth != null) 
-            LevelController.Instance.PlayerHealth.OnEntityDeath.AddListener(RefreshHearts);
+            LevelController.Instance.PlayerHealth.OnEntityTakeDamage.AddListener(RefreshHearts);
     }
 
     private void RefreshHearts()

@@ -19,6 +19,15 @@ public class StatModifier : MonoBehaviour
     public Type GetType { get => _type; }
     public int GetAmount { get => _amount; }
 
+    public void SetConfig(PowerupConfig config)
+    {
+        Debug.Log($"[STAT MODIFIER] Setting data: \n{config.ToString()} -");
+        
+        _type = config.Type;
+        _amount = config.Amount;
+        _destroyOnTrigger = config.DestroyOnTrigger;
+        _collisionLayer = config.CollisionLayer;
+    }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {

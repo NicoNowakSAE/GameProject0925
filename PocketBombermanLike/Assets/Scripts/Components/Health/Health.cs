@@ -43,6 +43,7 @@ public class Health : MonoBehaviour
     /// Fires as soon as the health of the entity reaches 0.
     /// </summary>
     public UnityEvent OnEntityDeath;
+    public UnityEvent OnEntityTakeDamage;
 
     [SerializeField] private bool _turnInactiveOnDeath = false;
 
@@ -91,6 +92,8 @@ public class Health : MonoBehaviour
             OnIFrameStart?.Invoke();
             return;
         }
+
+        OnEntityTakeDamage.Invoke();
 
         if (!_hasAlreadyBeenAttacked)
         {
